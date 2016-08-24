@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+
+{% block head %}
+	<h1>The header bar</h1>
+{% endblock %}
+
+{%block sidebar %}
+<?php include("sidebar.php")?>
+{%endblock sidebar %}
+
+{% block content %}
+	<h3> Items in stock</h3>
+	<ul>
+		{% for item in items %}
+			<li>
+				<a href = "{% url 'item_detail' item.id %}">
+					{{ item.title|capfirst }}
+				</a>
+			</li>
+		{% endfor %}
+	</ul>
+{% endblock %}

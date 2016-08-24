@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Inventory Project</title>
+		<meta name="description" content="">
+		
+		{% load staticfiles %}
+
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+		<link rel="stylesheet" href="{%static 'css/base.css'%}"> 
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+		<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+		
+<script>
+	$(document).ready(function(){
+		$('#search').keyup(function(){
+			var search_val = $("#search").val();
+			$.ajax({
+				type: 'GET',
+				url: "/ajax_test/",
+				data:{
+					'search_text' : search_val,
+				},
+				success: function(results){
+					$("#search_results").empty();
+					$("#search_results").append(results);
+				}
+			});
+		});
+	});
+</script>
+		
+	</head>
+	<body>
+		<div class = "container">
+		
+			<div class = "row" style="rgba(255,0,0,0);">
+				
+				{% block head %}
+
+				{% endblock head %}
+				<div class = "col-xs-10">
+				<ul class="breadcrumb">
+					<li> <a href="{% url 'index' %}">Home</a> </li>
+					<li><a href="{% url 'rating_descriptions' %}">Rating Descriptions</a> </li>
+					<li> <a href="{% url 'all_shows' %}">All Shows</a> </li>
+					<li style="background-color: yellow;"> <a href="{% url 'index' %}">Recommendations</a> </li>
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+						Search<span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="{% url 'search' %}">by ratings</a> </li>
+							<li><a href="{% url 'tag_search' %}">by tags</a>  </li>
+						</ul>
+					</li>
+					
+					<li style="background-color: yellow;"> <a href="{% url 'index' %}">Links</a> </li>
+				</ul>
+				</div>
+				<div class = "col-xs-2">
+					<div class="form-group has-feedback">
+						<i class="glyphicon glyphicon-search form-control-feedback"></i>
+						<input type = "text" style="padding-right:25px;" class = "form-control" id ="search" name="search" placeholder="search titles" />
+						<div id="search_results">
+						</div>
+					</div>
+				</div>
+			</div>
+
+					{% block content %}
+					{% endblock content %}
+					
+		</div>
+	</body>
+</html>

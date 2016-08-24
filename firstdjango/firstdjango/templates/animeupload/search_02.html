@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% load rating_tags %}
+
+{% block content %}
+<h1>{% static 'noUiSlider/nouislider.min.js'%}</h1>
+
+
+ 
+
+ 
+ <div class = "row">
+			<div class="col-sm-1">
+			</div>
+			
+			<div class ="col-sm-10">
+				<form id="reservation">
+					<div id="sex_ratings" class = "rating_box bg_lightpurple">
+					
+						<label for="n_sel_min">low</label>
+						<select name="n_sel_min" id="n_sel_min">
+							<option value="0">none</option>
+							<option value="1">low</option>
+							<option value="2">mid</option>
+							<option value="3">high</option>
+							<option value="4">very high</option>
+							<option value="5">extreme</option>
+					  </select>
+					  <label for="n_sel_max">high</label>
+						<select name="n_sel_max" id="n_sel_max">
+							<option value="0">none</option>
+							<option value="1">low</option>
+							<option value="2">mid</option>
+							<option value="3">high</option>
+							<option value="4">very high</option>
+							<option value="5" selected>extreme</option>
+					  </select>
+<!--------------------------------------------------------------------------------->					  
+					  <label for="v_sel_min">low</label>
+						<select name="v_sel_min" id="v_sel_min">
+							<option value="0">none</option>
+							<option value="1">low</option>
+							<option value="2">mid</option>
+							<option value="3">high</option>
+							<option value="4">very high</option>
+							<option value="5">extreme</option>
+					  </select>
+					  <label for="v_sel_max">high</label>
+						<select name="v_sel_max" id="v_sel_max">
+							<option value="0">none</option>
+							<option value="1">low</option>
+							<option value="2">mid</option>
+							<option value="3">high</option>
+							<option value="4">very high</option>
+							<option value="5" selected>extreme</option>
+					  </select>
+					  
+					
+					  {%create_search_slider_html "nudity" choices.nudity %}
+					</div>
+				</form>
+			</div>	
+			<div class="col-sm-1">
+			</div>
+			
+							
+		</div>
+ 
+ 
+ <script>
+  $( function() {
+    var sel_max = $( "#n_sel_max" );
+	var sel_min = $( "#n_sel_min" );
+    var n_slider = $( "<div id='n_slider'></div>" ).insertAfter( sel_max ).slider({
+      min: 0,
+      max: 5,
+      range: true,
+      values: [0, sel_max[ 0 ].selectedIndex],
+      slide: function( event, ui ) {
+		if (ui.handle.nextSibling) {
+            sel_min[ 0 ].selectedIndex = ui.value;
+        } else {
+            sel_max[ 0 ].selectedIndex = ui.value;
+        }
+        
+		
+      }
+    });
+	
+    sel_max.on( "change", function() {	
+		n_slider.slider( "values",1, this.selectedIndex );
+		sel_min.find("option").each(function(){
+			if(parseInt($(this).val()) > parseInt(sel_max.val())){
+				$(this).prop("disabled", true);
+			}else {
+				$(this).prop("disabled", false);
+			}
+		});
+
+    });
+
+	sel_min.on( "change", function() {
+		n_slider.slider( "values",0, this.selectedIndex );
+		sel_max.find("option").each(function(){
+			if(	parseInt($(this).val()	) < parseInt(sel_min.val()	)	){
+				$(this).prop("disabled", true);
+			}else{
+				$(this).prop("disabled", false);
+			}
+		});
+	
+    });
+  } );
+  
+  $( function() {
+    var sel_max = $( "#v_sel_max" );
+	var sel_min = $( "#v_sel_min" );
+    var n_slider = $( "<div id='v_slider'></div>" ).insertAfter( sel_max ).slider({
+      min: 0,
+      max: 5,
+      range: true,
+      values: [0, sel_max[ 0 ].selectedIndex],
+      slide: function( event, ui ) {
+		if (ui.handle.nextSibling) {
+            sel_min[ 0 ].selectedIndex = ui.value;
+        } else {
+            sel_max[ 0 ].selectedIndex = ui.value;
+        }
+        
+		
+      }
+    });
+	
+    sel_max.on( "change", function() {	
+		n_slider.slider( "values",1, this.selectedIndex );
+		sel_min.find("option").each(function(){
+			if(parseInt($(this).val()) > parseInt(sel_max.val())){
+				$(this).prop("disabled", true);
+			}else {
+				$(this).prop("disabled", false);
+			}
+		});
+
+    });
+
+	sel_min.on( "change", function() {
+		n_slider.slider( "values",0, this.selectedIndex );
+		sel_max.find("option").each(function(){
+			if(	parseInt($(this).val()	) < parseInt(sel_min.val()	)	){
+				$(this).prop("disabled", true);
+			}else{
+				$(this).prop("disabled", false);
+			}
+		});
+	
+    });
+  } );
+ </script>
+{% endblock %}

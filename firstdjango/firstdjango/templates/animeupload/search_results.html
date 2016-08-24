@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% load rating_tags %}
+
+{% block content %}
+<!--		<div class = "row">
+-->		
+		{% if shows.count < 1 %}
+			
+				<h2> no results </h2>
+			
+		{% else %}
+			{% for show in shows %}
+				
+				{%cycle '<div class = "row">' '' ''%}
+				
+				{% if forloop.counter0 < 50%}
+				<a href = "{% url 'show_detail' show.id %}">
+					<div class = "col-sm-4">
+						<img src = '{{ show.image.url }}' class="img-thumbnail img-responsive" width = "50%" align = "left">
+						{{ show.english_title|capfirst }}
+					</div>
+				</a>
+				{% endif %}	
+
+				{%cycle '' '' '</div>'%}
+				
+				{% if forloop.last and  not forloop.counter|divisibleby:3%}
+					</div>
+				{% endif %}
+				
+			{% endfor %}
+		{% endif %}	
+<!--		</div>
+-->
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% load rating_tags %}
+
+{% block content %}
+
+ <div class = "row">
+			<div class="col-sm-1">
+			</div>
+			
+			<div class ="col-sm-10">
+				<form id="reservation" action = "/test/" method = "POST">{% csrf_token %}
+					<div id="sex_ratings" class = "rating_box bg_lightpurple">
+					
+					  {%create_search_slider_html "nudity" choices.nudity %}
+					  
+					  {%create_search_slider_html "intimacy" choices.intimacy %}
+					  
+					  {%create_search_slider_html "intent" choices.intent %} 
+					</div>
+					
+					<div id="violence_ratings" class ="rating_box bg_lightred">
+					
+						{%create_search_slider_html "violence" choices.violence %}
+						
+						{%create_search_slider_html "gore" choices.gore %}
+						
+					</div>
+					
+					<div id="other_ratings" class = "rating_box bg_lightblue">
+					
+						{%create_search_slider_html "emotions" choices.feels %}
+						
+						{%create_search_slider_html "profanity" choices.profanity %}
+						
+					</div>
+					<input type = "submit" value = "Search">
+				</form>
+			</div>	
+			
+			<div class="col-sm-1">
+			</div>
+			
+							
+		</div>
+ 
+ 
+ <script>
+  $( function() {
+  
+		var rangeSlider = function(name,passed_max){
+			var sel_max = $( "#"+name+"_sel_high" );
+			var sel_min = $( "#"+name+"_sel_low"  );
+			
+			var curr_slider = $( "<div id='"+name+"_slider'></div>" ).insertAfter( sel_max ).slider({
+				min: 0,
+				max: passed_max,
+				range: true,
+				values: [0, sel_max[ 0 ].selectedIndex],
+				slide: function( event, ui ) {
+					if (ui.handle.nextSibling) {
+						sel_min[ 0 ].selectedIndex = ui.value;
+						sel_min.trigger("change");
+					} else {
+						sel_max[ 0 ].selectedIndex = ui.value;
+						sel_max.trigger("change");
+					}		
+				}
+			});
+			
+			sel_min.on( "change", function() {	
+				curr_slider.slider( "values",0, this.selectedIndex );
+				sel_max.find("option").each(function(){
+					if(parseInt($(this).val()) < parseInt(sel_min.val())){
+						$(this).prop("disabled", true);
+					}else {
+						$(this).prop("disabled", false);
+					}
+				})
+			});	
+			
+			sel_max.on( "change", function() {	
+				curr_slider.slider( "values",1, this.selectedIndex );
+				sel_min.find("option").each(function(){
+					if(parseInt($(this).val()) > parseInt(sel_max.val())){
+						$(this).prop("disabled", true);
+					}else {
+						$(this).prop("disabled", false);
+					};
+				});
+			});	
+		};
+  
+		var nudity_range = new rangeSlider("nudity", {% get_max choices.nudity%});
+		var nudity_range = new rangeSlider("intimacy", {% get_max choices.intimacy%});
+		var nudity_range = new rangeSlider("intent", {% get_max choices.intent%});
+		
+		var nudity_range = new rangeSlider("violence", {% get_max choices.violence%});
+		var nudity_range = new rangeSlider("gore", {% get_max choices.gore%});
+		
+		var nudity_range = new rangeSlider("emotions", {% get_max choices.feels%});
+		var nudity_range = new rangeSlider("profanity", {% get_max choices.profanity%});
+	});
+    
+ </script>
+{% endblock %}

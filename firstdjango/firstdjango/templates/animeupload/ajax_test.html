@@ -1,0 +1,13 @@
+
+{% if results.count > 0 %}
+	{% for show in results %}
+		<div class="search_item">
+			<a href = "/show/{{show.id}}/">{{show.english_title}} </a>
+			<br>
+		</div> 
+	{% endfor %}
+{% elif empty%}
+
+{% else %}
+	<li>none found</li>
+{% endif %}

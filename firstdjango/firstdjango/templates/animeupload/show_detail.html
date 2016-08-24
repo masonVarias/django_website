@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% load rating_tags %}
+
+{% block content %}
+	<div class = "row">
+		<div class = "col-sm-3" >
+			<img src = '{{ show.image.url }}'  width = "100%" align = "left">
+			<a href="{% url 'all_shows' %}">Back to shows</a>     <!-------------------back to home------------------>
+		</div>
+		<div class = "col-sm-9">                         
+			<h3>{{ show.english_title|capfirst }}: </h3>
+			<p>{{show.description}}</p>
+			
+			<h3> episodes: {{show.total_episodes}}</h3>
+			<h3>ongoing: 
+			{%if show.ongoing %}
+				yes
+			{%else%}
+				no
+				{% endif %}
+			</h3>
+		</div>  
+	</div>
+	
+	<div class="row" >
+	
+		<table style="border-collapse: separate;">
+		<tr>
+		<th><h3>tags:</h3></th>
+		<form id="search_form" action = "/tag_results/" method = "POST">{% csrf_token %}
+
+			{% for tag in show.tags.all%}
+				<th style="padding:0px 5px;"><div class="tag_box" > <button class="btn_tag" type="submit" name="cb_tags" value="{{tag.id}}">{{tag}}</button></div></th>
+			{% endfor %}
+		</form>
+		</tr>
+		</table>
+
+		<h3>Series Viewing Order</h3>
+	
+		<div style="display: flex;">
+			{% display_series show.series show.id%}
+		</div>
+		<br>
+		
+	</div>
+
+	<div class = "row">
+		<div class="col-sm-1">
+		</div>
+		
+		<div class ="col-sm-10">
+				
+			<div id="sex_ratings" class = "rating_box bg_lightpurple">
+<!--------------------------------------nudity rating------------------------------------------------->			
+				<h3>nudity : {{show.get_nudity_display}}</h3>
+				<div style = "width: 100%">
+					{% display_rating show.nudity show.n_choices%}
+				</div>
+				<a data-toggle="collapse" href="#sex_ratings_extras">See more ratings</a>
+			
+				<div id = "sex_ratings_extras" class = "collapse">
+					<hr>
+	<!--------------------------------------intimacy rating------------------------------------------------------>						
+					<h3>On Screen Intimacy: {{show.get_on_screen_intimacy_display}}</h3>
+					<div style = "width: 100%">
+						{% display_rating show.on_screen_intimacy show.osi_levels%}
+					</div>
+
+	<!--------------------------------------intent rating------------------------------------------------------>	
+					<h3>On Sexual intent: {{show.get_sexual_intent_display}}</h3>
+					<div style = "width: 100%">
+						{% display_rating show.sexual_intent show.si_levels%}
+					</div>
+				</div>
+			</div>
+						
+			<div id = "violence_ratings" class="rating_box bg_lightred">
+<!--=========================================================================================================>
+<!--------------------------------------violence rating------------------------------------------------->	
+				<h3>On Screen Violence: {{show.get_violence_display}}</h3>
+				<div style = "width: 100%">
+					{% display_rating show.violence show.osv_levels %}
+				</div>
+				<a data-toggle="collapse" href="#violence_ratings_extras">See more ratings</a>
+				
+				<div id="violence_ratings_extras" class = "collapse">
+				<hr>
+<!--------------------------------------gore rating------------------------------------------------->				
+					<h3>On Screen Gore: {{show.get_gore_display}}</h3>
+					<div style = "width: 100%">
+						{% display_rating show.gore show.gore_levels %}
+					</div>
+										
+		<!--------------------------------------morbid rating------------------------------------------------->				
+					<h3>morbid images: {{show.get_morbid_images_display}}</h3>
+					<div style = "width: 100%">
+						{% display_rating show.morbid_images show.mi_levels %}
+					</div>
+				</div>
+			</div>				
+			
+			
+			<div id = "other_ratings" class = "rating_box bg_lightblue">
+<!--=========================================================================================================>
+	<!--------------------------------------feels rating------------------------------------------------->		
+				<h3>emotional challange: {{show.get_feels_display}}</h3>
+				<div style = "width: 100%">
+					{% display_rating show.feels show.emotional_challenge %}
+				</div>
+				<a data-toggle="collapse" href="#other_ratings_extras">See more ratings</a>
+				
+				<div id = "other_ratings_extras" class = "collapse">
+				<hr>
+	<!--------------------------------------feels rating------------------------------------------------->			
+					<h3>Profanity: {{show.get_profanity_display}}</h3>
+					<div style = "width: 100%">
+						{% display_rating show.profanity show.swares %}
+					</div>
+		
+		<!--------------------------------------feels rating------------------------------------------------->			
+					<h3>moral ambiguity: {{show.get_moral_ambiguity_display}}</h3>
+					<div style = "width: 100%">
+						{% display_rating show.moral_ambiguity show.mi_levels %}
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-sm-1">
+		</div>
+	</div>
+
+{% endblock %}
+
+
+
+
+<?php /*
+			<div style="width: 300px">
+				<meter id="meter_item" min="0" value="30" max="100" ></meter>
+				<ul id="scale">
+					<li style="width: 5%"><span></span></li>
+					
+					<li><span id="scale">10</span></li>
+					<li><span id="scale">20</span></li>
+					<li><span id="scale">30</span></li>
+					<li><span id="scale">40</span></li>
+					<li><span id="scale">50</span></li>
+					<li><span id="scale">60</span></li>
+					<li><span id="scale">70</span></li>
+					<li><span id="scale">80</span></li>
+					<li><span id="scale">90</span></li>
+					
+					<li style="width: 5%"><span id="scale"></span></li>
+				</ul>
+			</div>
+			
+			
+			---------------oldVVVVVV
+			<h3>On Screen Violence: {{show.get_violence_display}}</h3>
+				<div style = "width: 100%">
+					<meter id = "meter_item" low ="2" optimum="1"  min="0" max="{{show.osv_levels|last|first}}" value = "{{show.violence}}"></meter>
+					<ul id="scale">
+						
+						{% for value,key in show.osv_levels %}
+							<li><span id="scale">{{key}}</span></li>
+						{% endfor %}
+						
+					</ul>
+				</div>	
+			*/
+?>

@@ -1,0 +1,42 @@
+{% extends "wsidebar.html" %}
+
+
+{% block main %}
+<div class="col-sm-9">
+<h2>what this website offers</h2>
+<p>
+{% lorem %}
+</p>
+
+
+	<h3>LAST 50 SHOWS</h3>
+	<ul>
+		{% for show in shows %}
+			{% if forloop.counter0 < 50%}
+			<li>
+				<a href = "{% url 'show_detail' show.id %}">
+					{{ show.english_title|capfirst }}
+				</a>
+			</li>
+			{% endif %}
+		{% endfor %}
+	</ul>
+</div>
+{% endblock %}
+
+
+{% block sidebar %}
+<div class="col-sm-3">
+	<h4>all shows</h4>
+		<ul>
+			{% for show in shows|dictsort:"english_title" %}
+				<li>
+					<a href = "{% url 'show_detail' show.id %}">
+					{{ show.english_title|capfirst }}
+					</a>
+				</li>
+			{% endfor %}
+		</ul>
+</div>
+{% endblock%}
+

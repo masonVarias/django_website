@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% load rating_tags %}
+
+{% block content %}
+
+		<div class = "row">
+			<h1> tag test</h1>
+			<form id="search_form" action = "/tag_results/" method = "POST">{% csrf_token %}
+			{% for tag in tags %}
+				<input type="checkbox" name="cb_tags" value="{{tag.id}}">{{tag.tag_name}}</input>
+			{% endfor %}
+			<br>
+			<input type = "submit"></input>
+			</form>
+		</div>		
+			
+		
+{% endblock %}

@@ -1,0 +1,229 @@
+{% extends "wsidebar.html" %}
+{% load staticfiles %}
+
+
+{% block main %}
+
+<h1>Ratings Descriptions</h1>
+
+	<ul class="nav nav-tabs">
+		<li class="active"><a data-toggle="tab" href="#sex_con">sexual</a></li>
+		<li><a data-toggle="tab" href="#violence_con">violence</a></li>
+		<li><a data-toggle="tab" href="#other_con">other</a></li>
+	</ul>
+	
+	<div class = "tab-content">
+		<div id = "sex_con" class = "rating_box bg_lightpurple tab-pane fade in active">
+			<h3><u>nudity</u> </h3>
+				<h4><i>the state of undress a character is in</i></h4>
+				<p>
+					<b>none:</b> there is no nudity in the show
+				</p>
+				
+				<p>	
+					<b>underwear:</b>character's underwear is exposed in the show
+				</p>
+					
+				<p>
+					<b>censored:</b>character's are display as naked but are censored often by lighting or with props <i>(i.e. Austin Powers style)</i>
+				</p>
+					
+				<p>
+					<b>butt: </b>a character's butt is displayed in the show
+				</p>
+					
+				<p>
+					<b>barbie smooth:</b>characters can be seen naked but their genitals are not drawn in. <i>(much like a ken or barbie doll)</i>
+				</p>
+					
+				<p>
+					<b>outline:</b>characters might not be seen naked but their is enough emphasis on the outlines of their clothes that they might as well have been. 
+				</p>
+					
+				<p>
+					<b>nipple:</b>nipples of female characters are displayed.
+				</p>
+					
+				<p>
+					<b>full frontal:</b>complete nudity is displayed in the show.
+				</p>
+	<!--------------------------------------------------------------------------------------------------->
+				<h3><u>intimacy</u> </h3>
+					<h4><i>the extent of physical intimacy shown on-screen</i></h4>
+				<p>
+					<b>none:</b> there is no intimacy in the show
+				</p>
+				
+				<p>	
+					<b>light kissing:</b>a character will lightly kiss another <i>(no tongue)</i>
+				</p>
+					
+				<p>
+					<b>deep kissing/grope:</b>character's will deeply kiss or grope one another <i>(stuff generally not accepted as public displays of affection)</i>
+				</p>
+					
+				<p>
+					<b>sex: </b>characters will have sex
+				</p>
+	<!--------------------------------------------------------------------------------------------------->							
+			<h3><u>intent</u> </h3>
+				<h4><i>the way intimate acts are portrayed</i></h4>
+				<p>
+					<b>none:</b> no intentions are displayed
+				</p>
+				
+				<p>	
+					<b>unintentional:</b>any intimate that happen are accidental or unintentional
+				</p>
+					
+				<p>
+					<b>mischievous:</b> intimate acts are intentional but could be considered a "pranks" or with minor ill will <i>(this is a subjective view)</i>
+				</p>
+					
+				<p>
+					<b>extremely malicious: </b>these acts would be very "rape-y" and considered sexual assault
+				</p>
+		</div>
+		<div id = "violence_con" class = "rating_box bg_lightred tab-pane fade">
+			<h3><u>violence</u> </h3>
+				<h4><i>the violence displayed in a show</i></h4>
+				
+				<p>
+					<b>none:</b> no violence in the show
+				</p>
+				
+				<p>	
+					<b>cartoon:</b>the violence is considered comical and has no lasting effect <i>(think tom and jerry frying pan stuff)</i>
+				</p>
+					
+				<p>
+					<b>blood:</b> characters will bleed when hit or have bruises but no lasting damage
+				</p>
+					
+				<p>
+					<b>realistic: </b>characters suffer sustainable damage and have realistic consequence <i>(hospitalization and death)</i>
+				</p>
+				
+				<p>
+					<b>extreme: </b> characters suffer extremely graphic violence <i>(torture and excessive maiming)</i>
+				</p>
+				
+				
+<!--------------------------------------------------------------------------------------------------->
+			<h3><u>gore</u> </h3>
+				<h4><i>amount of gore</i></h4>
+				
+				<p>
+					<b>none:</b> no gore
+				</p>
+				
+				<p>	
+					<b>low:</b>some blood, a little bleeding
+				</p>
+					
+				<p>
+					<b>moderate:</b> moderate bleeding, bruising, and swelling
+				</p>
+					
+				<p>
+					<b>high: </b> lots of bleeding, quick shots of graphic images
+				</p>
+				
+				<p>
+					<b>extreme: </b> long shots of graphic images
+				</p>
+	<!--------------------------------------------------------------------------------------------------->
+			<h3><u>morbid images</u> </h3>
+				<h4><i>amount of morbid images displayed</i></h4>
+				
+				<p>
+					<b>none:</b> no morbid images
+				</p>
+				
+				<p>	
+					<b>unmarred dead:</b>dead bodies are shown however, they are not damaged <i>(you only know they are not sleeping through context)</i>
+				</p>
+					
+				<p>
+					<b>silhouetted dismemberment:</b> dismemberment is inferred through silhouettes
+				</p>
+					
+				<p>
+					<b>dismemberment: </b> dismemberment is shown
+				</p>
+
+
+		</div>
+		<div id = "other_con" class = "rating_box bg_lightblue tab-pane fade">
+
+			<h3><u>emotions</u> </h3>
+				<h4><i>the emotional tax a show has</i></h4>
+				
+				<p>
+					<b>none:</b> the show has no emotionally difficult moments
+				</p>
+				
+				<p>	
+					<b>low</b> there are a couple emotional parts to the show <i>(a sad back-story or heartfelt speech)</i>
+				</p>
+					
+				<p>
+					<b>moderate:</b> some emotional parts but overall not a challenging show to watch <i>(here is where is where Disney's Bambi or Lion King would sit)</i>
+				</p>
+					
+				<p>
+					<b>high: </b> this show was make to choke you up
+				</p>
+				
+				<p>
+					<b>extreme: </b> you will probably only watch it once <i>(no happy endings guaranteed)</i>
+				</p>
+
+	<!--------------------------------------------------------------------------------------------------->
+
+			<h3><u>profanity</u> </h3>
+				<h4><i>what kind of language they use</i></h4>
+				
+				<p>
+					<b>none:</b> no swearing
+				</p>
+				
+				<p>	
+					<b>mild</b> not something you would say in-front of grandma <i>(sh*t, god d*mn)</i>
+				</p>
+					
+				<p>
+					<b>censored:</b> the show will have characters curse but will censor themselves
+				</p>
+					
+				<p>
+					<b>uncensored: </b> f-bombs are fair game
+				</p>
+				
+<!--------------------------------------------------------------------------------------------------->
+
+			<h3><u>moral ambiguity</u> </h3>
+				<h4><i>the uncertainty of who are the "good guys" and "bad guys"</i></h4>
+				<p>
+					<b>none:</b> characters are inherently good or bad
+				</p>
+				
+				<p>	
+					<b>low</b> a show might take an episode to make the villain relatable or have the hero make do something unheroic
+				</p>
+					
+				<p>
+					<b>moderate:</b> a good amount of time is spent making the villains relatable, or showing the heroes unheroicly but it is still hard to make a case against the heroes
+				</p>
+					
+				<p>
+					<b>high: </b> a major aspect of the show is to not have moral high-grounds
+				</p>
+				
+				<p>
+					<b>extreme: </b> actions of the heroes and villains can be strongly debated for moral correctness
+				</p>
+		
+		</div>
+	</div>
+{% endblock %}

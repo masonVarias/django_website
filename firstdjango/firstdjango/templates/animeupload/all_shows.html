@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% load rating_tags %}
+
+{% block content %}
+	<div class="row">
+	{% get_all_shows_alp %}
+	</div>
+{% endblock %}
