@@ -36,6 +36,16 @@ class Tag(models.Model):
 	def __str__(self):
 		return self.tag_name
 
+class Genre(models.Model):
+    name = models.CharField(max_length=30, unique=True)
+    description = models.CharField(max_length=150,null=True)
+
+    class Meta:
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
+
 class Show(models.Model):
 
 	n_choices= (
@@ -96,7 +106,7 @@ class Show(models.Model):
 	)
 	ma_levels = standard_choices
 
-	image = models.FileField(default = "images/fnf/fnf.jpg", blank=True)
+	image = models.FileField(default = "images/fnf/fnf.jpg", blank=True, upload_to='images/')
 #	image = models.ImageField(upload_to="/images", default = images/fnf/fnf.jif, width_field = "width_field", height_field = "height_field")
 #	height_field = models.IntegerField(default =0)
 #	width_field = models.IntegerField(default =0)
@@ -125,7 +135,8 @@ class Show(models.Model):
 	profanity = models.IntegerField(default = NONE, choices= swares)
 	moral_ambiguity = models.IntegerField(default = NONE, choices= ma_levels)
 
-	tags = models.ManyToManyField(Tag, blank=True, null=True)
+	tags = models.ManyToManyField(Tag, blank=True)
+	genres = models.ManyToManyField(Genre, blank=True)
 
 	def __str__(self):
 		return self.english_title

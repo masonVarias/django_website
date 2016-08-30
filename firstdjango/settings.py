@@ -25,7 +25,7 @@ SECRET_KEY = '#8hv^1u5ikp499$nfl!ei^+)-oq_ai@jxy-%d!qh!gm%8ez!vl'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['nosam276.pythonanywhere.com']
 
 
 # Application definition
@@ -56,7 +56,7 @@ ROOT_URLCONF = 'firstdjango.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['firstdjango/templates'],
+        'DIRS': ['firstdjango/firstdjango/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -125,7 +125,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
-STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn")
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static")
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "media_cdn")
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "media")
