@@ -6,7 +6,6 @@ from django.utils.datastructures import MultiValueDictKeyError
 from animeupload.models import Show
 #from animeupload.models import Tag_relation
 from animeupload.models import Tag
-from animeupload.models import Genre
 
 def index(request):
 	shows = Show.objects.all()
@@ -75,7 +74,6 @@ def search(request):
 	args = {}
 	args.update(csrf(request))
 	args['tags'] = Tag.objects.all()
-	args['genres'] = Genre.objects.all()
 	args['choices'] = {"nudity": Show.n_choices,"intent":Show.si_levels, "intimacy": Show.osi_levels,
 				"violence": Show.osv_levels, "gore":Show.gore_levels, "morbid": Show.mi_levels,
 				"feels": Show.emotional_challenge, "profanity": Show.swares, "moral_a": Show.ma_levels,}

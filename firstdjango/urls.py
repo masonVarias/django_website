@@ -32,10 +32,12 @@ urlpatterns = [
     url(r'^rating_descriptions/', views.rating_descriptions, name='rating_descriptions'),
     url(r'^search_results/', views.search_results, name='search_results'),
 #    url(r'^test/',views.test,name='test'),
-    url(r'^ajax_test/',views.ajax_test,name='a_test'),
-    url(r'^tag_search/',views.tag_search,name='tag_search'),
-    url(r'^tag_results/',views.tag_results,name='tag_results'),
+    url(r'^ajax_test/',views.ajax_search,name='a_search'),
+#    url(r'^tag_search/',views.tag_search,name='tag_search'),
+#    url(r'^tag_results/',views.tag_results,name='tag_results'),
     url(r'^all_shows/',views.all_shows,name='all_shows'),
+#    url(r'^test/',views.test,name='test'),
+#    url(r'^test_results/',views.test_results,name='res'),
 #    url(r'^simple_search/', view.ajax_test, name='test'),
 #    url(r'^ajax/search/',views.ajax_search, name="ajax_search")
 ]

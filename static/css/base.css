@@ -5,6 +5,19 @@ body{
 	background-attachment: fixed;
 	background-size: cover;
 }
+
+#accordion .ui-accordion-content{
+	background-color: #40d600;
+}
+
+#accordion .ui-accordion-header{
+	background-color: #4ccedb;
+}
+
+#accordion .ui-accordion-header.ui-state-active{
+	background-color: #0099ff;
+}
+
 #jt_head{
 	background-color: transparent;
 	background-image: url("../images/c2.png");
@@ -38,8 +51,16 @@ body{
 	border-width: thin;
 	background-color:lime;
 	color:black;
-	padding: 2px;
-	
+	padding: 2px;	
+}
+
+.genre_box{
+	display: inline-block;
+	border-style: groove;
+	border-width: thin;
+	background-color:yellow;
+	color:black;
+	padding: 2px;	
 }
 
 .row{

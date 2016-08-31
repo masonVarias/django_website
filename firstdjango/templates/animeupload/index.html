@@ -1,12 +1,11 @@
 {% extends "wsidebar.html" %}
 
-
 {% block main %}
-<div class="col-xs-9">
-<h2>what this website offers</h2>
-<p>
-{% lorem %}
-</p>
+	<div class="col-xs-9">
+	<h2>what this website offers</h2>
+	<p>
+	{% lorem %}
+	</p>
 
 
 	<h3>LAST 50 SHOWS</h3>
@@ -25,18 +24,4 @@
 {% endblock %}
 
 
-{% block sidebar %}
-<div class="col-xs-3">
-	<h4>all shows</h4>
-		<ul>
-			{% for show in shows|dictsort:"english_title" %}
-				<li>
-					<a href = "{% url 'show_detail' show.id %}">
-					{{ show.english_title|capfirst }}
-					</a>
-				</li>
-			{% endfor %}
-		</ul>
-</div>
-{% endblock%}
 

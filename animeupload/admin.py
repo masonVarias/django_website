@@ -15,7 +15,7 @@ class genreAdmin(admin.ModelAdmin):
 
 class showAdmin(admin.ModelAdmin):
 	list_display = ['english_title', 'total_episodes']
-	filter_horizontal = ['tags']
+	filter_horizontal = ['tags','genres',]
 
 
 class tagAdmin(admin.ModelAdmin):

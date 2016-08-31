@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{{% extends "base.html" %}
 
 {% load staticfiles %}
 {% load rating_tags %}
@@ -9,40 +9,65 @@
 			<div class="col-sm-1">
 			</div>
 			
+			
 			<div class ="col-sm-10">
 				<form id="search_form" action = "/search_results/" method = "POST">{% csrf_token %}
+				<div id = "accordion">
+					<h3><strong>rating parameters</strong></h3>
+					<div>
 
-					<div id="sex_ratings" class = "rating_box bg_lightpurple">
-					
-					  {%create_search_slider_html "nudity" choices.nudity %}
-					  
-					  {%create_search_slider_html "intimacy" choices.intimacy %}
-					  
-					  {%create_search_slider_html "intent" choices.intent %} 
-					</div>
-					
-					<div id="violence_ratings" class ="rating_box bg_lightred">
-					
-						{%create_search_slider_html "violence" choices.violence %}
-						
-						{%create_search_slider_html "gore" choices.gore %}
-						
-						{%create_search_slider_html "morbid_images" choices.morbid %}
-						
-					</div>
-					
-					<div id="other_ratings" class = "rating_box bg_lightblue">
-					
-						{%create_search_slider_html "emotions" choices.feels %}
-						
-						{%create_search_slider_html "profanity" choices.profanity %}
-						
-						{%create_search_slider_html "moral_ambiguity" choices.moral_a %}
-						
-					</div>
+							<div id="sex_ratings" class = "rating_box bg_lightpurple">
+							
+							  {%create_search_slider_html "nudity" choices.nudity %}
+							  
+							  {%create_search_slider_html "intimacy" choices.intimacy %}
+							  
+							  {%create_search_slider_html "intent" choices.intent %} 
+							</div>
+							
+							<div id="violence_ratings" class ="rating_box bg_lightred">
+							
+								{%create_search_slider_html "violence" choices.violence %}
+								
+								{%create_search_slider_html "gore" choices.gore %}
+								
+								{%create_search_slider_html "morbid_images" choices.morbid %}
+								
+							</div>
+							
+							<div id="other_ratings" class = "rating_box bg_lightblue">
+							
+								{%create_search_slider_html "emotions" choices.feels %}
+								
+								{%create_search_slider_html "profanity" choices.profanity %}
+								
+								{%create_search_slider_html "moral_ambiguity" choices.moral_a %}
+								
+							</div>
 
+					</div>
 					
-					<input class = "btn-primary btn-lg" type = "submit" value = "Search">
+					<h3><strong>tag parameters</strong></h3>
+					<div>
+						{% for tag in tags %}
+							<input type="checkbox" name="cb_tags" value="{{tag.id}}" checked>{{tag.tag_name}}</input>
+						{% endfor %}
+						<hr>
+						<input id="tag_checker" type="button" class="btn-primary check_tgon" value="check all">
+						<input id="tag_checker" type="button" class="btn-primary check_tgoff" value="uncheck all">
+					</div>
+					
+					<h3><strong>genre parameters</strong></h3>
+					<div>
+						{% for genre in genres %}
+							<input type="checkbox" name="cb_genres" value="{{genre.id}}" checked>{{genre.name}}</input>
+						{% endfor %}
+						<hr>
+						<input id="genre_checker" type="button" class="btn-primary check_tgon" value="check all">
+						<input id="genre_checker" type="button" class="btn-primary check_tgoff" value="uncheck all">
+					</div>
+				</div>
+				<input class = "btn-primary btn-lg" type = "submit" value = "Search">
 				</form>
 			</div>	
 			
@@ -57,6 +82,26 @@
  
  
  <script>
+ $(function(){
+	$(".check_tgon").click(function(){
+		$(this).siblings("input[type=checkbox]").prop("checked",true);
+	});
+ });
+ 
+  $(function(){
+	$(".check_tgoff").click(function(){
+		$(this).siblings("input[type=checkbox]").prop("checked",false);
+	});
+ });
+ 
+ $(function(){
+	$("#accordion").accordion({
+		heightStyle: "content",
+		collapsible: true,
+		active: false
+	});
+ });
+ 
   $( function() {
   
 		var rangeSlider = function(name,passed_max){

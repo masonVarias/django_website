@@ -4,12 +4,11 @@
 {% load rating_tags %}
 
 {% block content %}
-<!--		<div class = "row">
--->		
+	
 		{% if shows.count < 1 %}
-			
-				<h2> no results </h2>
-			
+			<div class = "row">
+				<h2> no results found</h2>
+			</div>
 		{% else %}
 			{% for show in shows %}
 				
@@ -32,6 +31,5 @@
 				
 			{% endfor %}
 		{% endif %}	
-<!--		</div>
--->
+
 {% endblock %}
