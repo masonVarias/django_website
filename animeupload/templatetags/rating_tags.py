@@ -15,10 +15,12 @@ def display_rating(passed_value, choices=[]):
 
 		string = string+ format_html('<ul id="scale">')
 		for key,value in choices:
+			visibility = "hidden-xs hidden-sm"
 			if(key == passed_value):
+				visibility=""
 				value = format_html("<b>{}</b>",value)
 
-			string = string + format_html('<li><span id="scale">{}</span></li>',value)
+			string = string + format_html('<li><span id="scale" class="{1}">{0}</span></li>',value,visibility)
 
 		string = string + format_html("</ul>")
 		return string

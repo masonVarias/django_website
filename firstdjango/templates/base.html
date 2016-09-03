@@ -23,7 +23,7 @@
 			var search_val = $("#search").val();
 			$.ajax({
 				type: 'GET',
-				url: "/ajax_test/",
+				url: "/ajax_search/",
 				data:{
 					'search_text' : search_val,
 				},
@@ -36,7 +36,7 @@
 	});
 </script>
 
-</script>
+<script>
 {% block extra_scripts %}
 {% endblock %}
 </script>

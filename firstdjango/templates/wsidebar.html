@@ -10,10 +10,10 @@
 				<div class="col-xs-3">
 					<h4>all shows</h4>
 					<ul>
-						{% for show in shows|dictsort:"english_title" %}
+						{% for show in shows %}
 							<li>
 								<a href = "{% url 'show_detail' show.id %}">
-								{{ show.english_title|capfirst }}
+								{{ show.english_title|title }}
 								</a>
 							</li>
 						{% endfor %}

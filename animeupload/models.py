@@ -138,6 +138,8 @@ class Show(models.Model):
 	tags = models.ManyToManyField(Tag, blank=True)
 	genres = models.ManyToManyField(Genre, blank=True)
 
+	modified_date = models.DateTimeField(auto_now=True, blank = True, null=True)
+
 	def __str__(self):
 		return self.english_title
 
