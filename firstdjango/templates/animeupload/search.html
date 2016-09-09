@@ -1,4 +1,4 @@
-{{% extends "base.html" %}
+{% extends "base.html" %}
 
 {% load staticfiles %}
 {% load rating_tags %}
@@ -50,7 +50,7 @@
 					<h3><strong>tag parameters</strong></h3>
 					<div>
 						{% for tag in tags %}
-							<input type="checkbox" name="cb_tags" value="{{tag.id}}" checked>{{tag.tag_name}}</input>
+							<input type="checkbox" name="cb_tags" value="{{tag.id}}">{{tag.tag_name}}</input>
 						{% endfor %}
 						<hr>
 						<input id="tag_checker" type="button" class="btn-primary check_tgon" value="check all">
@@ -60,7 +60,7 @@
 					<h3><strong>genre parameters</strong></h3>
 					<div>
 						{% for genre in genres %}
-							<input type="checkbox" name="cb_genres" value="{{genre.id}}" checked>{{genre.name}}</input>
+							<input type="checkbox" name="cb_genres" value="{{genre.id}}">{{genre.name}}</input>
 						{% endfor %}
 						<hr>
 						<input id="genre_checker" type="button" class="btn-primary check_tgon" value="check all">

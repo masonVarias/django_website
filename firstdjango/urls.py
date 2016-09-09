@@ -25,7 +25,6 @@ from animeupload import views
 
 urlpatterns = [
 	url(r'^$',views.index, name='index'),
-#	url(r'^item/(?P<id>\d+)/', views.item_detail, name='item_detail'),
     url(r'^show/(?P<id>\d+)/', views.show_detail, name='show_detail'),
     url(r'^admin/', admin.site.urls),
     url(r'^search/', views.search, name='search'),
@@ -36,9 +35,7 @@ urlpatterns = [
 #    url(r'^tag_search/',views.tag_search,name='tag_search'),
 #    url(r'^tag_results/',views.tag_results,name='tag_results'),
     url(r'^all_shows/',views.all_shows,name='all_shows'),
-#    url(r'^test/',views.test,name='test'),
-#    url(r'^test_results/',views.test_results,name='res'),
-#    url(r'^simple_search/', view.ajax_test, name='test'),
+    url(r'^recommendations/',views.recommendations,name='recommendations'),
 #    url(r'^ajax/search/',views.ajax_search, name="ajax_search")
 ]
 

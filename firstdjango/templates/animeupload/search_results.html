@@ -18,7 +18,9 @@
 				<a href = "{% url 'show_detail' show.id %}">
 					<div class = "col-sm-4">
 						<img src = '{{ show.image.url }}' class="img-thumbnail img-responsive" width = "50%" align = "left">
-						{{ show.english_title|capfirst }}
+						{{ show.english_title|title }}
+						<br>
+						<sub>{{ show.japanese_title|title }}</sub>
 					</div>
 				</a>
 				{% endif %}	

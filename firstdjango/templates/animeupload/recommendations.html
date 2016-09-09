@@ -1,0 +1,31 @@
+{% extends "wsidebar.html" %}
+
+{% block main %}
+<div class="col-xs-9">
+	{% for rec in recommendations %}
+		{%cycle '<div class = "row" style="display:flex;">' ''%}
+			<div class="col-sm-6" style="border-style: groove; ">
+				<h3>{{rec.recommended}}</h3>
+				<hr>
+				<img src = '{{ rec.show.image.url }}' class="img-thumbnail img-responsive" width = "50%" align = "right"><p>{{rec.description}}</p>
+			</div>
+			
+		{%cycle '' '</div>'%}
+		{% if forloop.last and  not forloop.counter|divisibleby:2%}
+			<div class="col-sm-6" style="border-style: groove; ">
+				<h3>palce for add</h3>
+				<hr>
+				<p>ad place</p>
+			</div>
+		</div>
+		{% endif %}
+	{% endfor %}
+
+</div>
+{% endblock %}
+
+
+
+<!--		{%cycle '<div class = "row" style="display:flex; flex-wrap:wrap;">' ''%}
+			<div class="col-sm-6" style="border-style: groove; display:flex; flex-direction:column;">
+			-->

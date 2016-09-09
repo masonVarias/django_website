@@ -229,4 +229,3 @@ def format_series(show, curr_id):
 		content = format_html("<a href ='/show/{0}''>{1}</a>",curr.id,content)
 	html = format_html("<div class='col-sm-2' style='text-align:center; outline:1px solid black;'>{0}</div>",content)
 	return html
-

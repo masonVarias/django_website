@@ -116,7 +116,7 @@ class Show(models.Model):
 	japanese_title = models.CharField(max_length=200, null= True)
 	description = models.TextField(max_length = 1000)
 	total_episodes = models.IntegerField()
-	ovas=  models.IntegerField(default = 0)
+	ova=  models.BooleanField(default = False)
 	movies = models.IntegerField(default = 0)
 	total_seasons = models.IntegerField(default = 1)
 	ongoing = models.BooleanField(default = False)
@@ -153,4 +153,4 @@ class Show(models.Model):
 class Recommendation(models.Model):
 	show = models.OneToOneField(Show, on_delete=models.CASCADE, null=True)
 	recommended = models.CharField(max_length = 30)
-	description = models.TextField(max_length = 300)
+	description = models.TextField(max_length = 1000)

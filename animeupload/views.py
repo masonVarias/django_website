@@ -3,10 +3,13 @@ from django.http import Http404
 from django.template.context_processors import csrf
 from django.utils.datastructures import MultiValueDictKeyError
 
+from django.db.models import Q
+
 from animeupload.models import Show
 #from animeupload.models import Tag_relation
 from animeupload.models import Tag
 from animeupload.models import Genre
+from animeupload.models import Recommendation
 
 def index(request):
 	shows = Show.objects.all()
@@ -57,7 +60,7 @@ def ajax_search(request):
 		search_text = request.GET['search_text'].strip()
 
 		if search_text:
-			results = Show.objects.filter(english_title__contains = search_text)
+			results = Show.objects.filter(Q(english_title__contains = search_text) | Q(japanese_title__contains=search_text))
 			empty = False
 
 	else:
@@ -134,6 +137,11 @@ def rating_filtering(shows, request):
 		pass
 	return shows
 
+def recommendations(request):
+	args = {}
+	args["recommendations"] = Recommendation.objects.all()
+	args["shows"] = Show.objects.all()
+	return render(request,"animeupload/recommendations.html",args)
 
 def search_results(request):
 	shows = Show.objects.all()
