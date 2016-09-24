@@ -25,7 +25,7 @@ SECRET_KEY = '#8hv^1u5ikp499$nfl!ei^+)-oq_ai@jxy-%d!qh!gm%8ez!vl'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['nosam276.pythonanywhere.com']
+ALLOWED_HOSTS = ['animeadvisor.tk']
 
 
 # Application definition
