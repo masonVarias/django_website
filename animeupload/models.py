@@ -90,6 +90,8 @@ class Show(models.Model):
 	)
 	gore_levels =standard_choices
 		#none, lowblood, broken bone, cencored insideout, insideout
+
+	fan_levels =standard_choices
 	si_levels=(
 		(NONE,"none"),
 		(UNINTENTIONAL,"unintentional"),
@@ -134,6 +136,8 @@ class Show(models.Model):
 	feels = models.IntegerField(default = NONE, choices= emotional_challenge)
 	profanity = models.IntegerField(default = NONE, choices= swares)
 	moral_ambiguity = models.IntegerField(default = NONE, choices= ma_levels)
+
+	fan_service = models.IntegerField(default = NONE, choices= fan_levels)
 
 	tags = models.ManyToManyField(Tag, blank=True)
 	genres = models.ManyToManyField(Genre, blank=True)

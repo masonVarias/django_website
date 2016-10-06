@@ -22,7 +22,9 @@
 							  
 							  {%create_search_slider_html "intimacy" choices.intimacy %}
 							  
-							  {%create_search_slider_html "intent" choices.intent %} 
+							  {%create_search_slider_html "intent" choices.intent %}
+
+							  {%create_search_slider_html "fan_service" choices.fan_service %}
 							</div>
 							
 							<div id="violence_ratings" class ="rating_box bg_lightred">
@@ -148,16 +150,18 @@
 		};
   
 		var nudity_range = new rangeSlider("nudity", {% get_max choices.nudity%});
-		var nudity_range = new rangeSlider("intimacy", {% get_max choices.intimacy%});
-		var nudity_range = new rangeSlider("intent", {% get_max choices.intent%});
+		var intimacy_range = new rangeSlider("intimacy", {% get_max choices.intimacy%});
+		var intent_range = new rangeSlider("intent", {% get_max choices.intent%});
+		var fan_service_range = new rangeSlider("fan_service", {% get_max choices.fan_service%});
 		
-		var nudity_range = new rangeSlider("violence", {% get_max choices.violence%});
-		var nudity_range = new rangeSlider("gore", {% get_max choices.gore%});
-		var nudity_range = new rangeSlider("morbid_images", {% get_max choices.morbid%});
+		var violence_range = new rangeSlider("violence", {% get_max choices.violence%});
+		var gore_range = new rangeSlider("gore", {% get_max choices.gore%});
+		var morbid_images_range = new rangeSlider("morbid_images", {% get_max choices.morbid%});
 		
-		var nudity_range = new rangeSlider("emotions", {% get_max choices.feels%});
-		var nudity_range = new rangeSlider("profanity", {% get_max choices.profanity%});
-		var nudity_range = new rangeSlider("moral_ambiguity", {% get_max choices.moral_a%});
+		var emotions_range = new rangeSlider("emotions", {% get_max choices.feels%});
+		var profanity_range = new rangeSlider("profanity", {% get_max choices.profanity%});
+		var moral_ambiguity_range = new rangeSlider("moral_ambiguity", {% get_max choices.moral_a%});
+		
 		
 	});
     

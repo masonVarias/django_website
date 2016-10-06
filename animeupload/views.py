@@ -81,7 +81,8 @@ def search(request):
 	args['genres'] = Genre.objects.all()
 	args['choices'] = {"nudity": Show.n_choices,"intent":Show.si_levels, "intimacy": Show.osi_levels,
 				"violence": Show.osv_levels, "gore":Show.gore_levels, "morbid": Show.mi_levels,
-				"feels": Show.emotional_challenge, "profanity": Show.swares, "moral_a": Show.ma_levels,}
+				"feels": Show.emotional_challenge, "profanity": Show.swares, "moral_a": Show.ma_levels,
+				"fan_service": Show.fan_levels,}
 	return render(request, 'animeupload/search.html', args)
 
 
@@ -99,42 +100,48 @@ def genre_filtering(shows, request):
 	return shows;
 
 def rating_filtering(shows, request):
-	try:
-		nudity_max = request.POST["nudity_sel_high",10]
-		nudity_min = request.POST["nudity_sel_low",0]
-		intimacy_max = request.POST["intimacy_sel_high",10]
-		intimacy_min = request.POST["intimacy_sel_low",0]
-		intent_max = request.POST["intent_sel_high",10]
-		intent_min = request.POST["intent_sel_low",0]
+#	try:
+	nudity_max = request.POST["nudity_sel_high"]
+	nudity_min = request.POST["nudity_sel_low"]
+	intimacy_max = request.POST["intimacy_sel_high"]
+	intimacy_min = request.POST["intimacy_sel_low"]
+	intent_max = request.POST["intent_sel_high"]
+	intent_min = request.POST["intent_sel_low"]
 
-		violence_max = request.POST["violence_sel_high",10]
-		violence_min = request.POST["violence_sel_low",0]
-		gore_max = request.POST["gore_sel_high",10]
-		gore_min = request.POST["gore_sel_low",0]
-		morb_max = request.POST["morbid_images_sel_high",10]
-		morb_min = request.POST["morbid_images_sel_low",0]
+	violence_max = request.POST["violence_sel_high"]
+	violence_min = request.POST["violence_sel_low"]
+	gore_max = request.POST["gore_sel_high"]
+	gore_min = request.POST["gore_sel_low"]
+	morb_max = request.POST["morbid_images_sel_high"]
+	morb_min = request.POST["morbid_images_sel_low"]
 
-		emotion_max= request.POST["emotions_sel_high",10]
-		emotion_min= request.POST["emotions_sel_low",0]
-		profanity_max= request.POST["profanity_sel_high",10]
-		profanity_min= request.POST["profanity_sel_low",0]
-		moral_amb_max = request.POST["moral_ambiguity_sel_high",10]
-		moral_amb_min = request.POST["moral_ambiguity_sel_low",0]
+	emotion_max= request.POST["emotions_sel_high"]
+	emotion_min= request.POST["emotions_sel_low"]
+	profanity_max= request.POST["profanity_sel_high"]
+	profanity_min= request.POST["profanity_sel_low"]
+	moral_amb_max = request.POST["moral_ambiguity_sel_high"]
+	moral_amb_min = request.POST["moral_ambiguity_sel_low"]
 
-		shows = shows.filter(
-		nudity__lte = nudity_max, nudity__gte = nudity_min,
-		on_screen_intimacy__lte = intimacy_max, on_screen_intimacy__gte = intimacy_min,
-		sexual_intent__lte = intent_max, sexual_intent__gte = intent_min,
-		violence__lte = violence_max, violence__gte = violence_min,
-		gore__lte = gore_max, gore__gte = gore_min,
-		morbid_images__lte = morb_max, morbid_images__gte = morb_min,
-		feels__lte = emotion_max, feels__gte = emotion_min,
-		profanity__lte = profanity_max, profanity__gte = profanity_min,
-		moral_ambiguity__lte = moral_amb_max, moral_ambiguity__gte = moral_amb_min
-		)
+	fan_service_max = request.POST["fan_service_sel_high"]
+	fan_service_min = request.POST["fan_service_sel_low"]
+
+	shows = shows.filter(
+	fan_service__lte = fan_service_max, fan_service__gte = fan_service_min,
+	nudity__lte = nudity_max, nudity__gte = nudity_min,
+	on_screen_intimacy__lte = intimacy_max, on_screen_intimacy__gte = intimacy_min,
+	sexual_intent__lte = intent_max, sexual_intent__gte = intent_min,
+	violence__lte = violence_max, violence__gte = violence_min,
+	gore__lte = gore_max, gore__gte = gore_min,
+	morbid_images__lte = morb_max, morbid_images__gte = morb_min,
+	feels__lte = emotion_max, feels__gte = emotion_min,
+	profanity__lte = profanity_max, profanity__gte = profanity_min,
+	moral_ambiguity__lte = moral_amb_max, moral_ambiguity__gte = moral_amb_min,
+	)
+	
+
 		
-	except MultiValueDictKeyError:
-		pass
+#	except MultiValueDictKeyError:
+#		pass
 	return shows
 
 def recommendations(request):
@@ -144,23 +151,23 @@ def recommendations(request):
 	return render(request,"animeupload/recommendations.html",args)
 
 def search_results(request):
+	args={}
 	shows = Show.objects.all()
 	shows = tag_filtering(shows,request)
 	shows = genre_filtering(shows,request)
 	shows = rating_filtering(shows,request)
-	return render(request, 'animeupload/search_results.html', {
-	'shows': shows,
-	})
+	args["post"] = request.POST
+	args["shows"] = shows
+	return render(request, 'animeupload/search_results.html', args)
 
 def tag_results(request):
+	args = {}
 	tags = request.POST.getlist('cb_tags')
 #	shows = Tag_relation.objects.filter(tag_id__in = tags).values('show')
 	shows = Show.objects.filter(tags__in= tags).distinct()
 #	shows = Show.objects.filter(id__in = shows)
-
-	return render(request, 'animeupload/search_results.html', {
-		 'shows' : shows,
-		})
+	args["shows"] = shows;
+	return render(request, 'animeupload/search_results.html', args)
 
 '''
 def search(request):

@@ -2,6 +2,7 @@
 
 {% load rating_tags %}
 
+
 {% block main %}
 <div class="col-xs-9">
 	<div class = "row">
@@ -65,8 +66,15 @@
 					<div style = "width: 100%">
 						{% display_rating show.nudity show.n_choices%}
 					</div>
-					<a data-toggle="collapse" href="#sex_ratings_extras">See more ratings</a>
-
+	<!--------------------------------------fan service rating------------------------------------------------------>				
+						<h3>On Fan Service: {{show.get_fan_service_display}}</h3>
+						<div style = "width: 100%">
+							{% display_rating show.fan_service show.fan_levels%}
+						</div>
+					
+					
+					
+					<a data-toggle="collapse" href="#sex_ratings_extras" class="collapsible">See more ratings</a>
 					<div id = "sex_ratings_extras" class = "collapse">
 						<hr>
 		<!--------------------------------------intimacy rating------------------------------------------------------>
@@ -80,7 +88,7 @@
 						<div style = "width: 100%">
 							{% display_rating show.sexual_intent show.si_levels%}
 						</div>
-					</div>
+					</div>		
 				</div>
 
 				<div id = "violence_ratings" class="rating_box bg_lightred">
@@ -90,7 +98,7 @@
 					<div style = "width: 100%">
 						{% display_rating show.violence show.osv_levels %}
 					</div>
-					<a data-toggle="collapse" href="#violence_ratings_extras">See more ratings</a>
+					<a data-toggle="collapse" href="#violence_ratings_extras"class="collapsible">See more ratings</a>
 
 					<div id="violence_ratings_extras" class = "collapse">
 					<hr>
@@ -116,7 +124,7 @@
 					<div style = "width: 100%">
 						{% display_rating show.feels show.emotional_challenge %}
 					</div>
-					<a data-toggle="collapse" href="#other_ratings_extras">See more ratings</a>
+					<a data-toggle="collapse" href="#other_ratings_extras"class="collapsible">See more ratings</a>
 
 					<div id = "other_ratings_extras" class = "collapse">
 					<hr>
