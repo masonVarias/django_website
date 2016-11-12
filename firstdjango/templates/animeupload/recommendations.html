@@ -6,6 +6,7 @@
 		{%cycle '<div class = "row" style="display:flex;">' ''%}
 			<div class="col-sm-6" style="border-style: groove; ">
 				<h3>{{rec.recommended}}</h3>
+				<h4><i>~{{rec.show.english_title}}~</i></h4>
 				<hr>
 				<img src = '{{ rec.show.image.url }}' class="img-thumbnail img-responsive" width = "50%" align = "right"><p>{{rec.description}}</p>
 			</div>

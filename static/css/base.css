@@ -2,6 +2,11 @@ html{
     height:100%;
 }
 
+meter::-webkit-meter-bar {
+  background: transparent;
+  border-style: inset;
+}
+
 body{
 	background-color: lime;
 	background-image: url("../images/background.jpg");

@@ -1,0 +1,14 @@
+{% extends "base.html" %} 
+{% block title %}Register
+{% endblock %} 
+{% block content %}
+<!-- registration code found at http://stackoverflow.com/questions/16901970/django-register-and-login-explained-by-example -->
+<div class="row">
+   <h2>Registration</h2>
+
+   <form action="/accounts/register/" method="post">{% csrf_token %}
+     {{form.as_p}}   
+	<input type="submit" value="Register" />
+   </form>
+</div>
+ {% endblock %}

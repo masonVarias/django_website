@@ -1,7 +1,10 @@
-from django.shortcuts import render
-from django.http import Http404
+from django.shortcuts import render, render_to_response
+from django.http import Http404, HttpResponseRedirect
 from django.template.context_processors import csrf
 from django.utils.datastructures import MultiValueDictKeyError
+from django.contrib import auth
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
 
 from django.db.models import Q
 
@@ -10,6 +13,37 @@ from animeupload.models import Show
 from animeupload.models import Tag
 from animeupload.models import Genre
 from animeupload.models import Recommendation
+
+#from animeupload.forms import UserForm
+
+@login_required(login_url='/login/')
+def get_profile(request):
+	args = {}
+	args['username'] = request.user.username
+	return render(request,'registration/profile.html',args)
+
+
+def login(request):
+	args={}
+	args.update(csrf(request))
+	return render(request, login.html, args)
+
+def register(request):
+	if request.method == 'POST':
+		form = UserCreationForm(request.POST)
+		if form.is_valid():
+			form.save()
+			return HttpResponseRedirect('/accounts/register/complete')
+	else:
+		form = UserCreationForm()
+	token = {}
+	token.update(csrf(request))
+	token['form'] = form
+
+	return render_to_response('registration/registration_form.html', token)
+
+def registration_complete(request):
+	return render_to_response('registration/registration_complete.html')
 
 def index(request):
 	shows = Show.objects.all()
@@ -101,29 +135,29 @@ def genre_filtering(shows, request):
 
 def rating_filtering(shows, request):
 #	try:
-	nudity_max = request.POST["nudity_sel_high"]
-	nudity_min = request.POST["nudity_sel_low"]
-	intimacy_max = request.POST["intimacy_sel_high"]
-	intimacy_min = request.POST["intimacy_sel_low"]
-	intent_max = request.POST["intent_sel_high"]
-	intent_min = request.POST["intent_sel_low"]
+	nudity_max = request.POST.get("nudity_sel_high",100)
+	nudity_min = request.POST.get("nudity_sel_low",0)
+	intimacy_max = request.POST.get("intimacy_sel_high",100)
+	intimacy_min = request.POST.get("intimacy_sel_low",0)
+	intent_max = request.POST.get("intent_sel_high",100)
+	intent_min = request.POST.get("intent_sel_low",0)
 
-	violence_max = request.POST["violence_sel_high"]
-	violence_min = request.POST["violence_sel_low"]
-	gore_max = request.POST["gore_sel_high"]
-	gore_min = request.POST["gore_sel_low"]
-	morb_max = request.POST["morbid_images_sel_high"]
-	morb_min = request.POST["morbid_images_sel_low"]
+	violence_max = request.POST.get("violence_sel_high",100)
+	violence_min = request.POST.get("violence_sel_low",0)
+	gore_max = request.POST.get("gore_sel_high",100)
+	gore_min = request.POST.get("gore_sel_low",0)
+	morb_max = request.POST.get("morbid_images_sel_high",100)
+	morb_min = request.POST.get("morbid_images_sel_low",0)
 
-	emotion_max= request.POST["emotions_sel_high"]
-	emotion_min= request.POST["emotions_sel_low"]
-	profanity_max= request.POST["profanity_sel_high"]
-	profanity_min= request.POST["profanity_sel_low"]
-	moral_amb_max = request.POST["moral_ambiguity_sel_high"]
-	moral_amb_min = request.POST["moral_ambiguity_sel_low"]
+	emotion_max= request.POST.get("emotions_sel_high",100)
+	emotion_min= request.POST.get("emotions_sel_low",0)
+	profanity_max= request.POST.get("profanity_sel_high",100)
+	profanity_min= request.POST.get("profanity_sel_low",0)
+	moral_amb_max = request.POST.get("moral_ambiguity_sel_high",100)
+	moral_amb_min = request.POST.get("moral_ambiguity_sel_low",0)
 
-	fan_service_max = request.POST["fan_service_sel_high"]
-	fan_service_min = request.POST["fan_service_sel_low"]
+	fan_service_max = request.POST.get("fan_service_sel_high",100)
+	fan_service_min = request.POST.get("fan_service_sel_low",0)
 
 	shows = shows.filter(
 	fan_service__lte = fan_service_max, fan_service__gte = fan_service_min,

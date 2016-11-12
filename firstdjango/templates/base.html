@@ -3,7 +3,9 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Anime Advisor</title>
-		<meta name="description" content="">
+		<meta name="description" content="rating website for anime">
+		<meta name="author" content="Mason Varias">
+		<meta name="keywords" content="anime,rating">
 
 		{% load staticfiles %}
 
@@ -58,9 +60,9 @@
 					<li> <a href="{% url 'recommendations' %}">Recommendations</a> </li>
 					<li> <a href="{% url 'search' %}">Search</a> </li>
 					<li style="background-color: yellow;"> <a href="{% url 'index' %}">Links</a> </li>
-
-
+					<li style="float:right;"> <a href="{% url 'my_profile' %}">My Profile</a> </li>
 				</ul>
+				
 				</div>
 				<div class = "col-xs-2">
 					<div class="form-group has-feedback">
