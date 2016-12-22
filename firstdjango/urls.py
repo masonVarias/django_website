@@ -17,7 +17,7 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 #from inventory import views
@@ -41,9 +41,13 @@ urlpatterns = [
     url(r'^recommendations/',views.recommendations,name='recommendations'),
     url(r'^login/', auth_views.login, name="my_login"),
     url(r'^accounts/profile/',views.get_profile, name="my_profile"),
-    url(r'^logout/',auth_views.logout,name="my_logout"),
-    url(r'^accounts/register/$', views.register, name='my_register'),
-    url(r'^accounts/register/complete/$', views.registration_complete, name='my_registration_complete'),
+    url(r'^accounts/', include('allauth.urls')),
+    url(r'^accounts/createList/',views.createlist, name="create_list"),
+    url(r'^accounts/deleteList/',views.deletelist, name="delete_list"),
+    url(r'^accounts/removeShow/',views.removeshow, name="remove_show"),
+   # url(r'^logout/',auth_views.logout,name="my_logout"),
+   # url(r'^accounts/register/$', views.register, name='my_register'),
+   # url(r'^accounts/register/complete/$', views.registration_complete, name='my_registration_complete'),
 #    url(r'^ajax/search/',views.ajax_search, name="ajax_search")
 ]
 

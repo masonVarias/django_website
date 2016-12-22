@@ -8,7 +8,8 @@ from django.contrib.auth.forms import UserCreationForm
 
 from django.db.models import Q
 
-from animeupload.models import Show
+from animeupload.forms import ShowListForm
+from animeupload.models import Show,Showlist
 #from animeupload.models import Tag_relation
 from animeupload.models import Tag
 from animeupload.models import Genre
@@ -20,8 +21,43 @@ from animeupload.models import Recommendation
 def get_profile(request):
 	args = {}
 	args['username'] = request.user.username
+	args['showlists'] = Showlist.objects.filter(creator = request.user)
 	return render(request,'registration/profile.html',args)
 
+def removeshow(request):
+	if request.method== "POST":
+		shows = request.POST.getlist("remove")
+		showlist_id = request.POST.get("showlist_id")
+		if shows:
+			curr_lists = Showlist.objects.filter(id = showlist_id)[0]
+			for show_id in shows:
+				curr_show = curr_lists.shows.get(id=show_id)
+				curr_lists.shows.remove(curr_show);
+			curr_lists.save();
+			return HttpResponseRedirect('/accounts/profile')
+	return HttpResponseRedirect('/')
+
+def createlist(request):
+	args={}
+	if request.method =='POST':
+		form = ShowListForm(request.POST)
+		if form.is_valid():
+			slist = form.save(commit = False)
+			slist.creator = request.user
+			slist.save()
+			return HttpResponseRedirect('/accounts/profile')
+	#raise Http404('an error has occurred')
+	return HttpResponseRedirect('/')
+
+def deletelist(request):
+#	args={}
+	if request.method =='POST':
+		passedid = request.POST.get("list_id")
+		thelist = Showlist.objects.get(id=passedid)
+		thelist.delete()
+
+		return HttpResponseRedirect('/accounts/profile')
+	return HttpResponseRedirect('/')
 
 def login(request):
 	args={}
@@ -61,6 +97,8 @@ def all_shows(request):
 def show_detail(request, id):
 	args = {}
 	args['shows'] = Show.objects.all()
+	if request.user.is_authenticated():
+		args['showlists'] = Showlist.objects.filter(creator = request.user)
 	tags= []
 	try:
 		show = Show.objects.get(id = id)
@@ -75,8 +113,7 @@ def show_detail(request, id):
 	except Show.DoesNotExist:
 		raise Http404('no entry for this show')
 
-	return render(request,'animeupload/show_detail.html', args
-		)
+	return render(request,'animeupload/show_detail.html', args)
 
 
 

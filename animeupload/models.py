@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 LITE_TONE = NONE = 0
 MODERATE_TONE = UNINTENTIONAL = CORPSE_LTE = LOW = ESRB_E = LIGHT = DAMN = UNDERWEAR = 1
@@ -125,6 +126,7 @@ class Show(models.Model):
 
 	series = models.ForeignKey(Series, null = True, blank = True, on_delete=models.SET_NULL)
 
+#-------------------------------------------ratings-------------
 	nudity = models.IntegerField(default = NONE, choices= n_choices)
 	on_screen_intimacy = models.IntegerField(default = NONE, choices= osi_levels)
 	sexual_intent = models.IntegerField(default = NONE, choices = si_levels)
@@ -138,7 +140,7 @@ class Show(models.Model):
 	moral_ambiguity = models.IntegerField(default = NONE, choices= ma_levels)
 
 	fan_service = models.IntegerField(default = NONE, choices= fan_levels)
-
+#---------------------------------------------------------------------------------
 	tags = models.ManyToManyField(Tag, blank=True)
 	genres = models.ManyToManyField(Genre, blank=True)
 
@@ -158,3 +160,9 @@ class Recommendation(models.Model):
 	show = models.OneToOneField(Show, on_delete=models.CASCADE, null=True)
 	recommended = models.CharField(max_length = 30)
 	description = models.TextField(max_length = 1000)
+
+class Showlist(models.Model):
+	creator = models.ForeignKey( settings.AUTH_USER_MODEL)
+	title = models.CharField(max_length = 30)
+	shows =  models.ManyToManyField(Show, blank=True)
+	likes = models.IntegerField(default = 0)

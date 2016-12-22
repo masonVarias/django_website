@@ -17,11 +17,11 @@
 							<div style="border-style: double hidden; border-radius:5px; text-align: center;">
 							{% if request.user.is_authenticated %}	
 								<h6> welcome {{ request.user.username }}</h6>
-								<a href="{% url 'my_logout'%}?next={{request.path}}">logout</a>
+								<a href="{% url 'account_logout'%}?next={{request.path}}">logout</a>
 								
 							{% else %}
-								<h5><a href="{% url 'my_login' %}?next={{request.path}}"> Login</a></h5>
-								<h5> <a href="{% url 'my_register' %}?next={% url 'index'%}"> register</a> </h5>
+								<h5><a href="{% url 'account_login' %}?next={{request.path}}"> Login</a></h5>
+								<h5> <a href="{% url 'account_signup' %}?next={% url 'index'%}"> register</a> </h5>
 							{% endif %}
 							</div>
 						</div>

@@ -48,6 +48,18 @@ body{
 	border-width: thin;
 	margin: 1px 0px
 }
+.newlist{
+	float: center;
+}
+.showlist-options{
+	float:right; 
+	padding:  0px 2px;
+}
+
+.showlist-title{
+	border-style: dashed;
+	padding: 0px 5px;
+}
 .btn_tag{
 	 background:none;
      border:none;

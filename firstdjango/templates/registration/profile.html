@@ -5,8 +5,138 @@
 {% endblock %}
 
 {% block content %}
+
 <div class="row">
 	<h3>Welcome {{username}}</h3>
 </div>
+<div class="row">
+	<div class="col-sm-9">
+			<h4> show lists</h4>
+			{%for list in showlists%}
+				{%cycle '<div class = "row">' '' ''%}
+					<div class="col-xs-4">
+						<div class="row showlist-title" style = "border-style: solid; hidden; padding: 0px 3px;">
+							<div class = "col-xs-8 show-title" onclick="accordion(this)" style="padding: inherit;"><b>{{list.title}}</b></div>
+							
+							<div class = "col-xs-2" style="padding: inherit;"> 
+								<div style="float:right;" class="showlist-options glyphicon glyphicon-edit" onclick = "editlist(this)"></div>
+							</div>
+								
+							<div class = "col-xs-2" style="padding: inherit;">
+								<form method="POST" action="{% url 'delete_list' %}">{%csrf_token%}
+									<input type="hidden" name="list_id" value="{{list.id}}">
+									<button type="submit" class="showlsit-edits-btn" style="background:none; border:none; padding:none;">
+										<div style="float:right ;" class="showlist-options glyphicon glyphicon-trash" onclick = "return deletelist(this)"></div>
+									</button>
+								</form>
+							</div>
+							
+						</div>
+						<div class = "showlist-body">
+						
+							<form method="POST" action ="{% url 'remove_show' %}">{% csrf_token %}
+							<input type="hidden" name="showlist_id" value="{{list.id}}">
+							<div class = "remove-options" style="display:none">
+									<input type="submit" value="remove checked" onclick="return removeshow(this)">									
+							</div>
+							
+							<ul>
+							{%for show in list.shows.all%}
+								<div class = "remove-options" style="display:none">
+									<input type="checkbox" name="remove" value = "{{show.id}}">
+									{{show.english_title}}
+									</input>
+								</div>
+								<div class="set-link">
+								<a href= "{% url 'show_detail' show.id %}"><li>{{show.english_title}}</li></a>
+								</div>
+							{%endfor%}
+							</ul>								
+								</form>
+						</div>
+					</div>
+				{%cycle '' '' '</div><br>'%}
+				{%if forloop.last%}
+					{% if forloop.counter|divisibleby:3%}
+						<div class ="row">
+					{%endif%}
+							<div "showlist-title">
+								<div class = "newlist" onclick="accordion(this)" style="float: center;">&#10010; new list</div>
+							</div>
+							
+							<div id="newlist-form" class="showlist-body" style="display: none;">
+								<form method="POST" action="{%url 'create_list'%}">{% csrf_token %}
+									<input type="text" name="title" placeholder="enter title">
+									<input type ="submit" value="create">
+								</form>
+							</div>
+					 
+						</div>
+				{% endif %}
+			{%endfor%}
+	</div>
+	<div class = "col-sm-3">
+		<h4>account stuff</h4>
+	</div>
+</div>
 
+<script>
+function accordion(passed)
+{
+	var sib = passed.parentNode.nextElementSibling;
+	toggleHide(sib,"inline")
+};
+
+function removeitem(passed,item)
+{
+	var conf = confirm("you are about to remove this " + item);
+	return conf;
+};
+
+function deletelist(passed)
+{
+	return removeitem(passed,"list");
+};
+
+function removeshow(passed)
+{
+	return removeitem(passed,"show from list");
+}
+function toggleHide(passed,displayVal)
+{
+	var vis = (passed.style.display == "none") ? displayVal:"none";
+	passed.style.display = vis;
+};
+
+function editlist(passed)
+{
+	var bod = passed.parentNode.parentNode.nextElementSibling;
+	var list = bod.getElementsByTagName('ul')[0];
+	var links = list.getElementsByTagName('li');
+	
+	for(i=0; i< links.length;i++)
+	{
+		toggleHide(links[i],"list-item");
+	}
+	
+	var edits = bod.getElementsByClassName("remove-options");
+	for(i = 0; i< edits.length; i++)
+	{
+		toggleHide(edits[i],"inline");
+		var input = edits[i].getElementsByTagName('input')[0];
+		if(input.type == "checkbox")
+		{
+			input.checked = false;
+		}
+	}	
+	
+	
+};
+
+function addlist()
+{
+	//change to name
+	//submit
+};
+ </script>
 {% endblock %}

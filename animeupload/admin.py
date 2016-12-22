@@ -1,6 +1,6 @@
 from django.contrib import admin
 # Register your models here.
-from .models import Show
+from .models import Show, Showlist
 from .models import Series
 from .models import Tag
 #from .models import Tag_relation
@@ -8,6 +8,9 @@ from .models import Recommendation
 from .forms import SeriesForm
 from .models import Genre
 
+
+class showlistAdmin(admin.ModelAdmin):
+	list_display = ['creator','title','likes']
 
 class genreAdmin(admin.ModelAdmin):
     list_display = ['name', 'description']
@@ -39,3 +42,4 @@ admin.site.register(Series,seriesAdmin)
 admin.site.register(Tag, tagAdmin)
 #admin.site.register(Tag_relation, tag_realtionAdmin)
 admin.site.register(Recommendation, recommendationAdmin)
+admin.site.register(Showlist,showlistAdmin)

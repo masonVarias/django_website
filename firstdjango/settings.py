@@ -43,6 +43,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'animeupload',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'django.contrib.sites',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -136,3 +140,18 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "media")
 
 ACCOUNT_ACTIVATION_DAYS = 2
+
+#===============================================for allauth
+
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = (
+	"django.contrib.auth.backends.ModelBackend",
+	"allauth.account.auth_backends.AuthenticationBackend"
+)
+
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+
+ACCOUNT_EMAIL_REQUIRED =True
+
+#ACCOUNT_UNIQUE_EMAIL = False
