@@ -10,16 +10,27 @@
 			<img src = '{{ show.image.url }}'  width = "100%" align = "left">
 			<a href="{% url 'all_shows' %}">Back to shows</a>     <!-------------------back to all shows------------------>
 			{% if user.is_authenticated %}
-			<form>
-				<select name="lists">
-					<option value="new list">new list</option>
-					{%for list in showlists%}
-						<option = value="{{list.title}}">{{list.title}}</option>
-					{%endfor%}
-				</select>
-				<br>
-				<input type = "submit" value ="&#10010; add to list">
-			</form>
+			<div id="frm_list_add">
+				<form method="POST" onsubmit =  "return checkNewList()" action="{%url 'add_show'%}">{% csrf_token %}
+					<select id="slt_lists" name="lists">
+						<option value="new list">new list</option>
+						{%for list in showlists%}
+							<option = value="{{list.title}}">{{list.title}}</option>
+						{%endfor%}
+					</select>
+					<br>
+					<input type = "submit" value ="&#10010; add to list">
+					<input type = "hidden" name="added_show_id" value = "{{show.id}}">
+				</form>
+			</div>
+			<div id ="new_list" class="hidden">
+				<form method="POST" action="{%url 'create_list'%}">{% csrf_token %}
+					<input type="text" name="title" placeholder="enter title">
+					<input type ="submit" value="create" >
+					<input type ="button" value="cancel" onclick="return hideNewList()">
+					<input type ="hidden" name="added_show_id" value = "{{show.id}}">
+				</form>
+			</div>
 			{% endif%}
 		</div>
 		<div class = "col-sm-9">
@@ -158,5 +169,43 @@
 
 	</div>
 </div>
+
+<script>
+function showNewList()
+{
+	var nl_form = document.getElementById("new_list");
+	var ls_form = document.getElementById("frm_list_add");
+	
+//	nl_form.style.display = "inline";
+	if(nl_form.classList.contains("hidden"))
+	{
+		nl_form.classList.remove("hidden");
+		ls_form.classList.add("hidden");
+	}
+}
+function hideNewList()
+{
+	var nl_form = document.getElementById("new_list");
+	var ls_form = document.getElementById("frm_list_add");
+	//nl_form.style.display = "none";
+	nl_form.classList.add("hidden");
+	if(ls_form.classList.contains("hidden"))
+	{
+		ls_form.classList.remove("hidden");
+	}
+}
+
+function checkNewList()
+{
+	var slt_lists = document.getElementById("slt_lists");
+	var curr_value = slt_lists.value;
+	if(curr_value == "new list")
+	{
+		showNewList();
+		return false;
+	}
+	return true;
+}
+</script>
 {% endblock %}
 

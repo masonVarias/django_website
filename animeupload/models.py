@@ -166,3 +166,6 @@ class Showlist(models.Model):
 	title = models.CharField(max_length = 30)
 	shows =  models.ManyToManyField(Show, blank=True)
 	likes = models.IntegerField(default = 0)
+
+	class Meta:
+		unique_together = ('creator', 'title',)

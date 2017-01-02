@@ -27,3 +27,4 @@ class ShowListForm(forms.ModelForm):
 	class Meta:
 		model = Showlist
 		fields = ('title',)
+		added_show_id = forms.IntegerField(widget=forms.HiddenInput)

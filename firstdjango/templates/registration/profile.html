@@ -11,6 +11,11 @@
 </div>
 <div class="row">
 	<div class="col-sm-9">
+	<div class = "alert-danger">
+		{%if error %}
+			{{error}}
+		{%endif%}
+	</div>
 			<h4> show lists</h4>
 			{%for list in showlists%}
 				{%cycle '<div class = "row">' '' ''%}

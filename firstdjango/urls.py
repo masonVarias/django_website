@@ -45,6 +45,7 @@ urlpatterns = [
     url(r'^accounts/createList/',views.createlist, name="create_list"),
     url(r'^accounts/deleteList/',views.deletelist, name="delete_list"),
     url(r'^accounts/removeShow/',views.removeshow, name="remove_show"),
+    url(r'^accounts/addtoList/',views.addtolist, name="add_show"),
    # url(r'^logout/',auth_views.logout,name="my_logout"),
    # url(r'^accounts/register/$', views.register, name='my_register'),
    # url(r'^accounts/register/complete/$', views.registration_complete, name='my_registration_complete'),

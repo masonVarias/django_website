@@ -6,7 +6,10 @@ from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 
+from django.shortcuts import get_object_or_404
+
 from django.db.models import Q
+from django.db import IntegrityError
 
 from animeupload.forms import ShowListForm
 from animeupload.models import Show,Showlist
@@ -37,17 +40,36 @@ def removeshow(request):
 			return HttpResponseRedirect('/accounts/profile')
 	return HttpResponseRedirect('/')
 
+def addtolist(request):
+	args={}
+	if request.method == 'POST':
+		list_title = request.POST.get("lists")
+		slist = Showlist.objects.get(title=list_title)
+		if slist:
+			id_val = request.POST.get("added_show_id")
+			show = Show.objects.get(id = id_val)
+			slist.shows.add(show)
+			#added show to list
+	return HttpResponseRedirect(request.META.get('HTTP_REFERER'),args)
+
 def createlist(request):
 	args={}
 	if request.method =='POST':
 		form = ShowListForm(request.POST)
 		if form.is_valid():
-			slist = form.save(commit = False)
-			slist.creator = request.user
-			slist.save()
-			return HttpResponseRedirect('/accounts/profile')
-	#raise Http404('an error has occurred')
-	return HttpResponseRedirect('/')
+			try:
+				slist = form.save(commit = False)
+				slist.creator = request.user
+				slist.save()
+				if request.POST.get("added_show_id"):
+					id_val = request.POST.get("added_show_id")
+					show = Show.objects.get(id=id_val)
+					slist.shows.add(show)
+
+			except IntegrityError as e:
+				args['error'] = "already use that name"
+				#better error message here -------------------
+	return HttpResponseRedirect(request.META.get('HTTP_REFERER'),args)
 
 def deletelist(request):
 #	args={}
@@ -239,76 +261,3 @@ def tag_results(request):
 #	shows = Show.objects.filter(id__in = shows)
 	args["shows"] = shows;
 	return render(request, 'animeupload/search_results.html', args)
-
-'''
-def search(request):
-	choices = {"nudity": Show.n_choices,"intent":Show.si_levels, "intimacy": Show.osi_levels,
-				"violence": Show.osv_levels, "gore":Show.gore_levels, "morbid": Show.mi_levels,
-				"feels": Show.emotional_challenge, "profanity": Show.swares, "moral_a": Show.ma_levels,}
-	return render(request, 'animeupload/search.html', {
-		'choices': choices,
-		})
-
-def search_results(request):
-try:
-#		print(request.POST)
-#	if request.method == "POST":
-	nudity_max = request.POST["nudity_sel_high"]
-	nudity_min = request.POST["nudity_sel_low"]
-	intimacy_max = request.POST["intimacy_sel_high"]
-	intimacy_min = request.POST["intimacy_sel_low"]
-	intent_max = request.POST["intent_sel_high"]
-	intent_min = request.POST["intent_sel_low"]
-
-	violence_max = request.POST["violence_sel_high"]
-	violence_min = request.POST["violence_sel_low"]
-	gore_max = request.POST["gore_sel_high"]
-	gore_min = request.POST["gore_sel_low"]
-	morb_max = request.POST["morbid_images_sel_high"]
-	morb_min = request.POST["morbid_images_sel_low"]
-
-	emotion_max= request.POST["emotions_sel_high"]
-	emotion_min= request.POST["emotions_sel_low"]
-	profanity_max= request.POST["profanity_sel_high"]
-	profanity_min= request.POST["profanity_sel_low"]
-	moral_amb_max = request.POST["moral_ambiguity_sel_high"]
-	moral_amb_min = request.POST["moral_ambiguity_sel_low"]
-
-	shows = Show.objects.filter(
-		nudity__lte = nudity_max, nudity__gte = nudity_min,
-		on_screen_intimacy__lte = intimacy_max, on_screen_intimacy__gte = intimacy_min,
-		sexual_intent__lte = intent_max, sexual_intent__gte = intent_min,
-		violence__lte = violence_max, violence__gte = violence_min,
-		gore__lte = gore_max, gore__gte = gore_min,
-		morbid_images__lte = morb_max, morbid_images__gte = morb_min,
-		feels__lte = emotion_max, feels__gte = emotion_min,
-		profanity__lte = profanity_max, profanity__gte = profanity_min,
-		moral_ambiguity__lte = moral_amb_max, moral_ambiguity__gte = moral_amb_min
-		)
-
-	return render(request, 'animeupload/search_results.html', {
-	'shows': shows,
-	})
-
-except Show.DoesNotExist:
-	raise Http404('no entry for this show')
-
-def tag_results(request):
-	tags = request.POST.getlist('cb_tags')
-#	shows = Tag_relation.objects.filter(tag_id__in = tags).values('show')
-	shows = Show.objects.filter(tags__in= tags).distinct()
-#	shows = Show.objects.filter(id__in = shows)
-
-	return render(request, 'animeupload/search_results.html', {
-		 'shows' : shows,
-		})
-
-def tag_search(request):
-	args = {}
-	args.update(csrf(request))
-
-	args['tags'] = Tag.objects.all()
-	
-	return render(request,'animeupload/tag_search.html',args
-		)
-'''
