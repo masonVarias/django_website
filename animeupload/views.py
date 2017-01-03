@@ -28,7 +28,7 @@ def get_profile(request):
 	return render(request,'registration/profile.html',args)
 
 def removeshow(request):
-	if request.method== "POST":
+	if request.method== "POST" and request.user.is_authenticated():
 		shows = request.POST.getlist("remove")
 		showlist_id = request.POST.get("showlist_id")
 		if shows:
@@ -42,9 +42,9 @@ def removeshow(request):
 
 def addtolist(request):
 	args={}
-	if request.method == 'POST':
+	if request.method == 'POST' and request.user.is_authenticated():
 		list_title = request.POST.get("lists")
-		slist = Showlist.objects.get(title=list_title)
+		slist = Showlist.objects.get(title=list_title, creator = request.user)
 		if slist:
 			id_val = request.POST.get("added_show_id")
 			show = Show.objects.get(id = id_val)
@@ -54,7 +54,7 @@ def addtolist(request):
 
 def createlist(request):
 	args={}
-	if request.method =='POST':
+	if request.method =='POST' and request.user.is_authenticated():
 		form = ShowListForm(request.POST)
 		if form.is_valid():
 			try:
