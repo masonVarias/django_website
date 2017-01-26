@@ -229,3 +229,32 @@ def format_series(show, curr_id):
 		content = format_html("<a href ='/show/{0}''>{1}</a>",curr.id,content)
 	html = format_html("<div class='col-sm-2' style='text-align:center; outline:1px solid black;'>{0}</div>",content)
 	return html
+
+@register.simple_tag
+def mainlink_title(title,f_color,b_color,indent):
+	string = format_html("")
+	string = format_html('<div class="link_title" style="background-color:{2}; color: {1};border-radius: 10px 0px 0px; font-size: 1.5em; text-indent:{3}">{0}',title,f_color,b_color,indent)
+	string = string + format_html("</div>")
+	return string
+
+@register.simple_tag
+def make_link(title,url):
+	string= format_html("");
+	if url:
+		string = format_html("<span class='link'")
+		string = string + format_html("style = 'width:10%; display:table-cell'")
+		string = string + format_html("><a href= '{0}' target='_blank'>{1}</a></span>",url,title)
+	return string;
+
+@register.simple_tag
+def make_links(link):
+	string = make_link("home", link.home_page)
+	string = string + make_link("youtube",link.youtube)
+	string = string + make_link("twitter",link.twitter)
+	string = string + make_link("facebook",link.facebook)
+	string = string + make_link("twitch",link.twitch)
+	string = string + make_link("instagram",link.instagram)
+	string = string + make_link("tumblr",link.tumblr)
+	string = string + make_link("pintrest",link.pintrest)
+	string = string + make_link("google plus",link.google_plus)
+	return string

@@ -3,6 +3,7 @@ from django.contrib import admin
 from .models import Show, Showlist
 from .models import Series
 from .models import Tag
+from .models import PrimaryLink, SecondaryLink
 #from .models import Tag_relation
 from .models import Recommendation
 from .forms import SeriesForm
@@ -31,15 +32,17 @@ class seriesAdmin(admin.ModelAdmin):
 class recommendationAdmin(admin.ModelAdmin):
 	list_display = ['show','recommended']
 
-#	formfield_overrides = {
-#      models.CharField: {'widget': forms.Textarea(attrs={"disabled":True}) },
-#   }
+class linkAdmin(admin.ModelAdmin):
+	list_display = ['name','home_page']
 
+class SecondaryLinkAdmin(admin.ModelAdmin):
+	list_display = ['name','parent_link']
 
 admin.site.register(Genre, genreAdmin)
 admin.site.register(Show, showAdmin)
 admin.site.register(Series,seriesAdmin)
 admin.site.register(Tag, tagAdmin)
-#admin.site.register(Tag_relation, tag_realtionAdmin)
 admin.site.register(Recommendation, recommendationAdmin)
 admin.site.register(Showlist,showlistAdmin)
+admin.site.register(PrimaryLink,linkAdmin)
+admin.site.register(SecondaryLink,SecondaryLinkAdmin)

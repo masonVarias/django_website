@@ -169,3 +169,43 @@ class Showlist(models.Model):
 
 	class Meta:
 		unique_together = ('creator', 'title',)
+
+class Link(models.Model):
+	name = models.CharField(max_length = 30)
+	description = models.TextField(max_length = 1000)
+	home_page = models.URLField()
+	#-------------------------------------------get/make color field
+	color_f = models.CharField(max_length = 30, default="black")
+	background = models.CharField(max_length = 30,default = "white")
+#	color2 = models.CharField(max_length = 30)
+
+#	image = models.FileField( blank=True, upload_to='images/')
+
+	youtube = models.URLField(blank = True)
+	twitter = models.URLField(blank = True)
+	facebook = models.URLField(blank = True)
+	instagram = models.URLField(blank = True)
+	tumblr = models.URLField(blank = True)
+	pintrest = models.URLField(blank = True)
+
+	google_plus = models.URLField(blank = True)
+
+	twitch = models.URLField(blank = True)
+#	class Meta:
+#		abstract = True
+
+	def __str__(self):
+		return self.name
+
+
+class PrimaryLink(Link):
+	INDENT = "0px"
+	def __str__(self):
+		return self.name
+
+class SecondaryLink(Link):
+	INDENT = "50px"
+	parent_link = models.ForeignKey(PrimaryLink, null=True, related_name="parent_lnk")
+
+	def __str__(self):
+		return self.name

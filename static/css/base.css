@@ -1,3 +1,20 @@
+#link_container{
+	border-style:solid; 
+	border-radius: 10px 0px;
+}
+#link_title{
+	border-radius: 10px 0px 0px; 
+	font-size: 1.5em
+}
+#link_body{
+display:table; 
+width: 100%;
+}
+#link{
+	width:10%; 
+	display:table-cell
+}
+
 html{
     height:100%;
 }
@@ -111,6 +128,9 @@ body{
 .low_padding{
 	padding: 2px 2px;
 }
+
+
+
 /* vvvvvvvvvvvvvv for meter vvvvvvvvvv*/
 
 #meter_item

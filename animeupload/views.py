@@ -18,7 +18,35 @@ from animeupload.models import Tag
 from animeupload.models import Genre
 from animeupload.models import Recommendation
 
-#from animeupload.forms import UserForm
+from .models import PrimaryLink, SecondaryLink
+
+
+def links(request):
+	args={}
+	#for sidebar
+	args["shows"] = Show.objects.all()
+
+	links_prim = PrimaryLink.objects.all()
+	links_sec = SecondaryLink.objects.all()
+	args["links"] = []
+
+	args["plink"] = links_prim
+	args["slink"] = links_sec
+
+	if links_prim:
+		for p_link in links_prim:
+			args["links"].append(p_link)
+			temp =[]
+			if links_sec:
+				for s_link in links_sec:
+					if s_link.parent_link == p_link:
+						args["links"].append(s_link)
+					else:
+						temp.append(s_link)
+				links_sec = temp
+
+
+	return render(request,"animeupload/links.html",args)
 
 @login_required(login_url='/login/')
 def get_profile(request):

@@ -1,0 +1,43 @@
+{% extends "wsidebar.html" %}
+
+{% load rating_tags %}
+
+{% block main %}
+<div class="col-xs-9">
+	<h1>
+	</h1>
+	<div class="link_container" style="border-style:solid; border-radius: 10px 0px;">
+
+		{% for link in links%}
+			{%mainlink_title link.name link.color_f link.background link.INDENT%}
+			{%make_links link%}
+			<p>{{link.description}}</p>
+		{% endfor %}
+<!--		<div class="link_title" style="background-color: white; color:purple; border-radius: 10px 0px 0px; font-size: 1.5em">
+			Funimation
+		</div>
+
+			<div class= "link_body" style="display:table; width: 100%;">
+			{%make_link "home"  "https://www.funimation.com/"%}
+			{%make_link "youtube"  "https://www.funimation.com/"%}
+			{%make_link "twitter"  "https://www.funimation.com/"%}
+			{%make_link "facebook"  "https://www.funimation.com/"%}
+			{%make_link "instagram"  "https://www.funimation.com/"%}
+			{%make_link "yelp"  "https://www.funimation.com/"%}
+<!--				<span class ="link" style="width:10%; display:table-cell"><a href= "https://www.funimation.com/" target="_blank">homepage</a></span>
+				<span class ="link" style="width:10%; display:table-cell"><a href= "https://www.youtube.com/channel/UCVi2lI40LetxLBKn-rtWC3A" target="_blank">youtube</a></span>
+				<span class ="link" style="width:10%; display:table-cell"><a href= "https://www.youtube.com/channel/UCVi2lI40LetxLBKn-rtWC3A" target="_blank">other</a></span>
+				<span class ="link" style="width:10%; display:table-cell"><a href= "https://www.youtube.com/channel/UCVi2lI40LetxLBKn-rtWC3A" target="_blank">another other</a></span>
+
+			</div>
+		<p>
+		odds are if you are watching an english dubbed show, it was dubbed by funimation.
+		with their recent partnership with crunchyroll, they now have access to more subbed shows sooner.
+		</p>
+		<div class="link_secondary" style="background-color: white; color:purple; font-size: 1.5em; text-indent: 50px">
+			dubble talk
+		</div>
+-->
+	</div>
+</div>
+{% endblock %}
