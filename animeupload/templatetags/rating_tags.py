@@ -26,8 +26,13 @@ def display_rating(passed_value, choices=[]):
 		return string
 
 @register.simple_tag
-def get_all_shows_alp():
-	shows = Show.objects.all()
+def get_all_alp(passed):
+#	shows = Show.objects.all()
+	filter_key = get_key_name(passed)
+	start_with = "startswith"
+	filter_val = filter_key + "__" + start_with
+
+	
 	string = format_html("")
 	alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
 	string = format_html('<div class="col-sm-6">')
@@ -37,15 +42,30 @@ def get_all_shows_alp():
 			string = string + format_html('</div><div class="col-sm-6">')
 
 		string = string + create_letter(letter)
-		string = string + list_shows_by_letter(shows.filter(english_title__startswith=letter))
+#		string = string + list_shows_by_letter(shows.filter(english_title__startswith=letter))
+		string = string + list_shows_by_letter(passed.filter(**{filter_val: letter}))
 
 	string = string + format_html("</div>")
 	return string
 
+def get_key_name(passed):
+	class_name = passed.model.__name__
+	string =""
+	if class_name == "Show":
+		string = "english_title"
+	elif class_name == "Tag":
+		string = "tag_name"
+	elif class_name == "Genre":
+		string = "name"
+	return string
+
 def list_shows_by_letter(shows):
+	div = shows.model.__name__.lower()
 	string = format_html("<ul>")
+	show_key_name = get_key_name(shows)
 	for show in shows:
-		string = string + format_html('<li><a href = "/show/{0}">{1}</a></li>',show.id,show.english_title.capitalize())
+		name =  show.__str__().title()
+		string = string + format_html('<li><a href = "/{2}/{0}">{1}</a></li>',show.id,name,div)
 
 	string = string + format_html("</ul>")
 	return string

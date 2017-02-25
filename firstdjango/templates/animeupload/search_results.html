@@ -3,16 +3,22 @@
 {% load staticfiles %}
 {% load rating_tags %}
 
-{% block content %}
 
+
+{% block content %}
+<div class = "row">
+	{% block pg_details%}
+	{% endblock %}
 		{% if shows.count < 1 %}
-			<div class = "row">
+			
 				<h2> no results found</h2>
 			</div>
 		{% else %}
 			{% for show in shows %}
 				
-				{%cycle '<div class = "row">' '' ''%}
+				{% if forloop.counter0 > 2%}
+					{%cycle '<div class = "row">' '' ''%}
+				{%endif%}
 				
 				{% if forloop.counter0 < 50%}
 				<a href = "{% url 'show_detail' show.id %}">

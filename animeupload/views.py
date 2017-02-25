@@ -207,14 +207,15 @@ def search(request):
 	return render(request, 'animeupload/search.html', args)
 
 
-def tag_filtering(shows,request):
-	tags = request.POST.getlist('cb_tags')
+#def tag_filtering(shows,request):
+#	tags = request.POST.getlist('cb_tags')
+def tag_filtering(shows,tags):
 	if tags:
 		shows = Show.objects.filter(tags__in= tags).distinct()
 	return shows
 
-def genre_filtering(shows, request):
-	genres = request.POST.getlist('cb_genres')
+def genre_filtering(shows, genres):
+#	genres = request.POST.getlist('cb_genres')
 	if genres:
 		shows = shows.filter(genres__in= genres).distinct()
 
@@ -274,18 +275,56 @@ def recommendations(request):
 def search_results(request):
 	args={}
 	shows = Show.objects.all()
-	shows = tag_filtering(shows,request)
-	shows = genre_filtering(shows,request)
+	shows = tag_filtering(shows,request.POST.getlist('cb_tags'))
+	shows = genre_filtering(shows,request.POST.getlist('cb_genres'))
 	shows = rating_filtering(shows,request)
 	args["post"] = request.POST
 	args["shows"] = shows
 	return render(request, 'animeupload/search_results.html', args)
 
-def tag_results(request):
-	args = {}
-	tags = request.POST.getlist('cb_tags')
+#def tag_results(request):
+#	args = {}
+#	tags = request.POST.getlist('cb_tags')
 #	shows = Tag_relation.objects.filter(tag_id__in = tags).values('show')
-	shows = Show.objects.filter(tags__in= tags).distinct()
+#	shows = Show.objects.filter(tags__in= tags).distinct()
 #	shows = Show.objects.filter(id__in = shows)
-	args["shows"] = shows;
-	return render(request, 'animeupload/search_results.html', args)
+#	args["shows"] = shows;
+#	return render(request, 'animeupload/search_results.html', args)
+
+def tag_detail(request,id):
+	args={}
+	try:
+		tag = Tag.objects.get(id = id)
+		tag_list = [tag]
+		args["shows"]=tag_filtering(Show.objects.all(),tag_list)
+		args["tag"] = tag
+
+	except Tag.DoesNotExist:
+		raise Http404('no entry for this show')
+		
+	return render(request, 'animeupload/tag_results.html', args)
+
+
+def all_tags(request):
+	shows = Tag.objects.all()
+	return render(request,'animeupload/all_shows.html',{
+		'shows': shows,
+		})
+
+def all_genres(request):
+	shows = Genre.objects.all()
+	return render(request,'animeupload/all_shows.html',{
+		'shows': shows,
+		})
+
+def genre_detail(request,id):
+	args={}
+	try:
+		genre = Genre.objects.get(id = id)
+		genre_list = [genre]
+		args["shows"]=genre_filtering(Show.objects.all(),genre_list)
+		args["genre"] = genre
+	except Genre.DoesNotExist:
+		raise Http404('no entry for this show')
+
+	return render(request, 'animeupload/genre_detail.html', args)

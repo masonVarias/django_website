@@ -47,10 +47,10 @@ urlpatterns = [
     url(r'^accounts/removeShow/',views.removeshow, name="remove_show"),
     url(r'^accounts/addtoList/',views.addtolist, name="add_show"),
     url(r'^links/', views.links, name='links'),
-   # url(r'^logout/',auth_views.logout,name="my_logout"),
-   # url(r'^accounts/register/$', views.register, name='my_register'),
-   # url(r'^accounts/register/complete/$', views.registration_complete, name='my_registration_complete'),
-#    url(r'^ajax/search/',views.ajax_search, name="ajax_search")
+    url(r'^tag/(?P<id>\d+)/', views.tag_detail, name='tag_detail'),
+    url(r'^all_tags/',views.all_tags,name='all_tags'),
+    url(r'^all_genres/',views.all_genres,name='all_genres'),
+    url(r'^genre/(?P<id>\d+)/', views.genre_detail, name='genre_detail'),
 ]
 
 if settings.DEBUG:
