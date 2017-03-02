@@ -26,6 +26,8 @@ class Series(models.Model):
 
 	def __str__(self):
 		return self.series_name
+	class Meta:
+		verbose_name_plural = "series"
 
 class Tag(models.Model):
 	tag_name=models.CharField(max_length=30, unique=True)
@@ -37,15 +39,23 @@ class Tag(models.Model):
 	def __str__(self):
 		return self.tag_name
 
+	def save(self, *args, **kwargs):
+		self.tag_name = self.tag_name.lower()
+		super(Tag, self).save(*args, **kwargs)
+
 class Genre(models.Model):
-    name = models.CharField(max_length=30, unique=True)
-    description = models.CharField(max_length=150,null=True)
+	name = models.CharField(max_length=30, unique=True)
+	description = models.CharField(max_length=150,null=True)
 
-    class Meta:
-        ordering = ["name"]
+	class Meta:
+		ordering = ["name"]
 
-    def __str__(self):
-        return self.name
+	def __str__(self):
+		return self.name
+
+	def save(self,*args,**kwargs):
+		self.name = self.name.lower()
+		super(Genre, self).save(*args, **kwargs)
 
 class Show(models.Model):
 
@@ -152,6 +162,11 @@ class Show(models.Model):
 	class Meta:
 		ordering = ["english_title"]
 
+	def save(self, *args, **kwargs):
+		self.english_title = self.english_title.lower()
+		self.japanese_title = self.japanese_title.lower()
+		super(Show, self).save(*args, **kwargs)
+
 #class Tag_relation(models.Model):
 #	show = models.ForeignKey(Show, blank=True, null=True, on_delete=models.CASCADE)
 #	tag = models.ForeignKey(Tag, blank=True, null=True, on_delete=models.CASCADE)
@@ -196,6 +211,10 @@ class Link(models.Model):
 
 	def __str__(self):
 		return self.name
+
+	def save(self, *args, **kwargs):
+		self.name = self.name.lower()
+		super(Link, self).save(*args, **kwargs)
 
 
 class PrimaryLink(Link):
