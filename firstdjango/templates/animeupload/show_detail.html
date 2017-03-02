@@ -2,6 +2,11 @@
 
 {% load rating_tags %}
 
+{%block seo_head%}
+<title>{{show.english_title|title}} | Anime Advisor</title>
+		<meta name="description" content="Details about {{show.english_title|title}} including: ratings, description and related tags/genres.">
+		<meta name="keywords" content="{{show.english_title|title}} anime,rating,recommendations">
+{%endblock%}
 
 {% block main %}
 <div class="col-xs-9">

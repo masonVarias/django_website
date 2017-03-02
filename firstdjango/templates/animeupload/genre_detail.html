@@ -1,5 +1,11 @@
 {% extends "animeupload/search_results.html" %}
 
+{% block seo_head %}
+	<title>{{genre.name}} | Anime Advisor</title>
+		<meta name="description" content="{{genre.name}} genre description of and all shows with that genre">
+		<meta name="keywords" content="anime,rating,recommendations,{{genre.name}}">
+{% endblock %}
+
 {% block pg_details %}
 	<div class="col-sm-12" style="border-style:none none outset none">
 		<h2>{{genre.name}}</h2>

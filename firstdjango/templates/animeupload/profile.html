@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 
-{% block title %}
-	Profile
+{% block seo_head %}
+	<title>Profile | Anime Advisor</title>
+		<meta name="description" content="Profile page to edit show lists and account information">
+		<meta name="keywords" content="anime,rating,recommendations,profile">
 {% endblock %}
 
 {% block content %}
@@ -93,7 +95,7 @@
 			{%endfor%}
 	</div>
 	<div class = "col-sm-3">
-		<h4>account stuff</h4>
+		<h4>Your Account</h4>
 		<a href="{% url 'account_change_password' %}"> change password</a>
 		<br>
 		<a href="{% url 'account_reset_password' %}"> reset password</a>

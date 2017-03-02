@@ -48,12 +48,12 @@ def links(request):
 
 	return render(request,"animeupload/links.html",args)
 
-@login_required(login_url='/login/')
+@login_required(login_url='account_login')
 def get_profile(request):
 	args = {}
 	args['username'] = request.user.username
 	args['showlists'] = Showlist.objects.filter(creator = request.user)
-	return render(request,'registration/profile.html',args)
+	return render(request,'animeupload/profile.html',args)
 
 def removeshow(request):
 	if request.method== "POST" and request.user.is_authenticated():
@@ -139,10 +139,11 @@ def index(request):
 #	return HttpResponse('<p> in index view </p>')
 
 def all_shows(request):
+	args={}
 	shows = Show.objects.all()
-	return render(request,'animeupload/all_shows.html',{
-		'shows': shows,
-		})
+	args['shows'] = shows
+	args['meta_desc'] = "list of all anime we have rated and tagged"
+	return render(request,'animeupload/all_shows.html',args)
 
 def show_detail(request, id):
 	args = {}
@@ -306,16 +307,18 @@ def tag_detail(request,id):
 
 
 def all_tags(request):
+	args={}
 	shows = Tag.objects.all()
-	return render(request,'animeupload/all_shows.html',{
-		'shows': shows,
-		})
+	args['shows']= shows
+	args['meta_desc'] = "list of all tags we use to catagorize anime"
+	return render(request,'animeupload/all_shows.html', args)
 
 def all_genres(request):
+	args={}
 	shows = Genre.objects.all()
-	return render(request,'animeupload/all_shows.html',{
-		'shows': shows,
-		})
+	args['shows']= shows
+	args['meta_desc'] = "list of all genres we use to catagorize anime"
+	return render(request,'animeupload/all_shows.html',args)
 
 def genre_detail(request,id):
 	args={}

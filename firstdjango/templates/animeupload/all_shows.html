@@ -3,6 +3,12 @@
 {% load staticfiles %}
 {% load rating_tags %}
 
+{% block seo_head %}
+	<title>Show List| Anime Advisor</title>
+		<meta name="description" content="{{meta_desc}}">
+		<meta name="keywords" content="anime,rating,recommendations">
+{% endblock %}
+
 {% block content %}
 	<div class="row">
 	{% get_all_alp shows %}

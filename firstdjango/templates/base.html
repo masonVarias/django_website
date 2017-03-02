@@ -1,11 +1,15 @@
 <!doctype html>
 <html>
 	<head>
-		<meta charset="utf-8">
-		<title>Anime Advisor</title>
-		<meta name="description" content="rating website for anime">
+		<meta charset="utf-8">		
 		<meta name="author" content="Mason Varias">
-		<meta name="keywords" content="anime,rating">
+		
+		{% block seo_head %}
+		<title>Anime Advisor</title>
+		<meta name="description" content="See ratings, and recommendations for anime. Register to save lists of shows for quick references.">
+		<meta name="keywords" content="anime,rating,recommendations">
+		{%endblock%}
+		
 
 		{% load staticfiles %}
 
@@ -80,8 +84,14 @@
 				</div>
 			</div>
 
+					{%block precontent%}
+					{%endblock%}
+					
 					{% block content %}
 					{% endblock content %}
+					
+					{%block postcontent%}
+					{%endblock%}
 
 		</div>
 	</body>
