@@ -29,6 +29,7 @@ from django.contrib.auth.forms import UserCreationForm
 urlpatterns = [
 	url(r'^$',views.index, name='index'),
     url(r'^show/(?P<id>\d+)/', views.show_detail, name='show_detail'),
+#    url(r'^admin/animeupload/genre/consolidate', views.consolidate, name="consolidate"),
     url(r'^admin/', admin.site.urls),
     url(r'^search/', views.search, name='search'),
     url(r'^rating_descriptions/', views.rating_descriptions, name='rating_descriptions'),

@@ -1,7 +1,8 @@
 from django import forms
 from django.utils.safestring import mark_safe
-from animeupload.models import Show
+from animeupload.models import Movie, TVShow
 from django.utils.html import escape
+from itertools import chain
 
 class seriesWidget(forms.widgets.TextInput):
 
@@ -9,7 +10,8 @@ class seriesWidget(forms.widgets.TextInput):
 
 		debug =""
 
-		shows = Show.objects.all().order_by("english_title")
+	#	shows = Show.objects.all().order_by("english_title")
+		shows = chain(Movie.objects.all().order_by("english_title"),TVShow.objects.all().order_by("english_title"))
 		rowstart = ['<div class = "row" style="display: flex;">','','']
 		rowend = ['', '', '</div>']
 
@@ -22,7 +24,7 @@ class seriesWidget(forms.widgets.TextInput):
 			content = content + '"class="img-rounded" align = "left" style="width:80px;height:100px"></div><div class="col-sm-6 low_padding"> <b id="'
 			content = content + str(escape(show.id)) +  '"class = "show_names">' + escape(show.english_title.title()) + "</b>"
 			content = content + "<br> <select id='season'> <option value="">all</option>"
-			if show.total_seasons > 1:
+			if hasattr(show,"total_seasons") and show.total_seasons > 1:
 				for curr in range(show.total_seasons):
 					content = content + "<option value = '" + str((curr + 1)) + "'> season " + str((curr + 1)) + "</option>"
 			content = content + '</select><button = type="button" class="btn_show_selection">select</button></div></div>'

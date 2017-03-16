@@ -41,15 +41,17 @@
 		<div class = "col-sm-9">
 			<h3>{{ show.english_title|capfirst }}: </h3>
 			<p>{{show.description}}</p>
-
+			
+			{%if show.episodes%}
 			<h3> episodes: {{show.total_episodes}}</h3>
 			<h3>ongoing:
-			{%if show.ongoing %}
+				{%if show.ongoing %}
 				yes
-			{%else%}
+				{%else%}
 				no
 				{% endif %}
 			</h3>
+			{%endif%}
 		</div>
 	</div>
 

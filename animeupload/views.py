@@ -5,6 +5,7 @@ from django.utils.datastructures import MultiValueDictKeyError
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.admin.views.decorators import staff_member_required
 
 from django.shortcuts import get_object_or_404
 
@@ -12,13 +13,15 @@ from django.db.models import Q
 from django.db import IntegrityError
 
 from animeupload.forms import ShowListForm
-from animeupload.models import Show,Showlist
+from animeupload.models import Show, Showlist , TVShow , Movie
 #from animeupload.models import Tag_relation
 from animeupload.models import Tag
 from animeupload.models import Genre
 from animeupload.models import Recommendation
 
 from .models import PrimaryLink, SecondaryLink
+
+from itertools import chain
 
 
 def links(request):
@@ -140,6 +143,8 @@ def index(request):
 
 def all_shows(request):
 	args={}
+#	tv = TVShow.objects.all()
+#	movies = Movie.objects.all()
 	shows = Show.objects.all()
 	args['shows'] = shows
 	args['meta_desc'] = "list of all anime we have rated and tagged"
@@ -331,3 +336,8 @@ def genre_detail(request,id):
 		raise Http404('no entry for this show')
 
 	return render(request, 'animeupload/genre_detail.html', args)
+
+#@user_passes_test(lambda u:u.is_superuser)
+def consolidate(request):
+	args={}
+	return render(request, 'admin/consolidate.html', args)

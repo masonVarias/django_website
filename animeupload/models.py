@@ -58,7 +58,6 @@ class Genre(models.Model):
 		super(Genre, self).save(*args, **kwargs)
 
 class Show(models.Model):
-
 	n_choices= (
 		(NONE,"none"),
 		(UNDERWEAR,"underwear"),
@@ -128,11 +127,12 @@ class Show(models.Model):
 	english_title = models.CharField(max_length=200)
 	japanese_title = models.CharField(max_length=200, null= True)
 	description = models.TextField(max_length = 1000)
-	total_episodes = models.IntegerField()
-	ova=  models.BooleanField(default = False)
-	movies = models.IntegerField(default = 0)
-	total_seasons = models.IntegerField(default = 1)
-	ongoing = models.BooleanField(default = False)
+
+#	total_episodes = models.IntegerField()
+#	ova=  models.BooleanField(default = False)
+#	movies = models.IntegerField(default = 0)
+#	total_seasons = models.IntegerField(default = 1)
+#	ongoing = models.BooleanField(default = False)
 
 	series = models.ForeignKey(Series, null = True, blank = True, on_delete=models.SET_NULL)
 
@@ -167,9 +167,16 @@ class Show(models.Model):
 		self.japanese_title = self.japanese_title.lower()
 		super(Show, self).save(*args, **kwargs)
 
-#class Tag_relation(models.Model):
-#	show = models.ForeignKey(Show, blank=True, null=True, on_delete=models.CASCADE)
-#	tag = models.ForeignKey(Tag, blank=True, null=True, on_delete=models.CASCADE)
+
+class TVShow(Show):
+	total_episodes = models.IntegerField()
+	ova=  models.BooleanField(default = False)
+	total_seasons = models.IntegerField(default = 1)
+	ongoing = models.BooleanField(default = False)
+
+class Movie(Show):
+	def __str__(self):
+		return self.english_title
 
 class Recommendation(models.Model):
 	show = models.OneToOneField(Show, on_delete=models.CASCADE, null=True)

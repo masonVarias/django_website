@@ -51,7 +51,7 @@ def get_all_alp(passed):
 def get_key_name(passed):
 	class_name = passed.model.__name__
 	string =""
-	if class_name == "Show":
+	if class_name == "Show" or class_name=="TVShow":
 		string = "english_title"
 	elif class_name == "Tag":
 		string = "tag_name"
