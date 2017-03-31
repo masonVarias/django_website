@@ -53,9 +53,7 @@ def get_key_name(passed):
 	string =""
 	if class_name == "Show" or class_name=="TVShow":
 		string = "english_title"
-	elif class_name == "Tag":
-		string = "tag_name"
-	elif class_name == "Genre":
+	elif class_name == "Tag" or class_name == "Genre":
 		string = "name"
 	return string
 

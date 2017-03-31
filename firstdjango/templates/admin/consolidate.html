@@ -1,7 +1,35 @@
 {% extends "admin/base_site.html" %}
 
 {% block content %}
+{{message}}
+<h2>Consolidate:<h2>
+	<table>
+		<tr>
+    {%for item in queryset%}
+	<!---------------block-->
+		{% if forloop.counter0 > 2%}
+			{%cycle '<tr>' '' ''%}
+		{%endif%}
+				
+		<th style="border:solid; width:33%;">
+			<h3><u>{{item}}:</u></h3>
+			<h4>{{item.description}}</h4>
+		</th>
 
-<h2>Consolidate tag/genre<h2>
+		{%cycle '' '' '</tr>'%}
+				
+		{% if forloop.last and  not forloop.counter|divisibleby:3%}
+			</tr>
+		{% endif %}
+	<!---------------block-->
+	{%endfor%}
+	</table>
+	
+<form action="" method="post"> 
+{% csrf_token %}
+    {{ form }}
 
+    <input type="hidden" name="action" value="consolidate" />
+    <input type="submit" name="apply" value="apply" />
+</form>
 {% endblock %}

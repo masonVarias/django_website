@@ -30,17 +30,17 @@ class Series(models.Model):
 		verbose_name_plural = "series"
 
 class Tag(models.Model):
-	tag_name=models.CharField(max_length=30, unique=True)
+	name=models.CharField(max_length=30, unique=True)
 	description = models.CharField(max_length=150,null=True)
 
 	class Meta:
-		ordering = ["tag_name"]
+		ordering = ["name"]
 
 	def __str__(self):
-		return self.tag_name
+		return self.name
 
 	def save(self, *args, **kwargs):
-		self.tag_name = self.tag_name.lower()
+		self.name = self.name.lower()
 		super(Tag, self).save(*args, **kwargs)
 
 class Genre(models.Model):
@@ -170,7 +170,7 @@ class Show(models.Model):
 
 class TVShow(Show):
 	total_episodes = models.IntegerField()
-	ova=  models.BooleanField(default = False)
+#	ova=  models.BooleanField(default = False)
 	total_seasons = models.IntegerField(default = 1)
 	ongoing = models.BooleanField(default = False)
 

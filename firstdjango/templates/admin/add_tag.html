@@ -2,17 +2,17 @@
 
 {% block content %}
 
-<p>Select tag to apply:</p>
+<p>Select {{type}} to apply:</p>
 
 <form action="" method="post"> 
 {% csrf_token %}
     {{ form }}
-    <p>The tag will be applied to:</p>
+    <p>The {{type}} will be applied to:</p>
 
-    <ul>{{ articles|unordered_list }}</ul>
+    <ul>{{ queryset|unordered_list }}</ul>
 
-    <input type="hidden" name="action" value="add_tag" />
-    <input type="submit" name="apply" value="Apply tag" />
+    <input type="hidden" name="action" value="{{h_action}}" />
+    <input type="submit" name="apply" value="Apply" />
 </form>
 
 {% endblock %}

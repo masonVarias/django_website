@@ -58,7 +58,7 @@
 					<h3><strong>tag parameters</strong></h3>
 					<div>
 						{% for tag in tags %}
-							<input type="checkbox" name="cb_tags" value="{{tag.id}}">{{tag.tag_name}}</input>
+							<input type="checkbox" name="cb_tags" value="{{tag.id}}">{{tag.name}}</input>
 						{% endfor %}
 						<hr>
 						<input id="tag_checker" type="button" class="btn-primary check_tgon" value="check all">
