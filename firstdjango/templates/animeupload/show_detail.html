@@ -56,8 +56,19 @@
 	</div>
 
 	<div class="row" >
+	<div class = "col-sm-12">
 
 		<table style="border-collapse: separate;">
+		<tr>
+			<th><h3>runtime:</h3></th>
+			<td valign="bottom"><h4>
+			{% if show.length == None %}
+				N/A
+			{% else %}
+				{{show.length}} min
+			{% endif %}
+			</h4></td>
+		</tr>
 		<tr>
 			<th><h3>tags:</h3></th>
 		<form id="search_form" action = "/search_results/" method = "POST">{% csrf_token %}
@@ -84,6 +95,7 @@
 		</div>
 		<br>
 
+	</div>
 	</div>
 
 	<div class = "row">

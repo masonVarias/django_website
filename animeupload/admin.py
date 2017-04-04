@@ -27,6 +27,8 @@ def consolidate(modelAdmin, request, queryset):#---disable consol of 1,split gen
 	from django.http import HttpResponseRedirect
 	args={}
 #	print(modelAdmin)#--------------
+#	temp = modelAdmin.makeanew("newgen","thing")
+#	print(temp)
 	args.update(csrf(request))
 	form = None
 	try:
@@ -38,32 +40,36 @@ def consolidate(modelAdmin, request, queryset):#---disable consol of 1,split gen
 #				print("in form.is_valid() ......")#--------------
 				title= form.cleaned_data['title']
 				desc = form.cleaned_data['description']
-				new_genre = Genre(name=title,description=desc)
-				new_genre.clean_fields()
+				new_inst = modelAdmin.new_inst(title,desc)
+				new_inst.clean_fields()
 
-				dup = Genre.objects.filter(name = new_genre.name).exclude(id__in =queryset)
-				if dup:
+				if modelAdmin.is_dup(new_inst,queryset):
 					raise ValidationError("not unique")
 
+#				dup = Genre.objects.filter(name = new_genre.name).exclude(id__in =queryset)
+#				if dup:
+#					raise ValidationError("not unique")
+				shows = modelAdmin.filter_shows(queryset)
 				#vvvv shallow copy vvvvvv#
-				shows = Show.objects.filter(genres__in= queryset).distinct()
+#				shows = Show.objects.filter(genres__in= queryset).distinct()
 
-				new_genre.save()
+				new_inst.save()
 
 				#update shows with new genre
 				for show in shows:
-					print(show)
-					show.genres.add(new_genre)
-					show.save()
+					modelAdmin.set_to_show(new_inst,show)
+#					print(show)
+#					show.genres.add(new_genre)
+#					show.save()
 
 				#delete after update
-				for genre in queryset:
-					genre.delete()
+				for curr in queryset:
+					curr.delete()
 
 				return HttpResponseRedirect(request.get_full_path())
 		if not form:
 			form = ConsolidateForm(initial={'_selected_action': request.POST.getlist(admin.ACTION_CHECKBOX_NAME)})
-	except:
+	except ValidationError as e:
 		args["message"] = "there was an integrity error"
 
 
@@ -71,7 +77,7 @@ def consolidate(modelAdmin, request, queryset):#---disable consol of 1,split gen
 	args["queryset"] = queryset
 	args["form"] = form
 	return render_to_response('admin/consolidate.html',args)
-consolidate.short_description = "Consolidate selected genres"
+consolidate.short_description = "Consolidate selected"
 
 class AddTagForm(forms.Form):
 	_selected_action = forms.CharField(widget=forms.MultipleHiddenInput)
@@ -86,6 +92,7 @@ def add_tag(self, request, queryset):
 	from django.template.context_processors import csrf
 	from django.http import HttpResponseRedirect
 	args={}
+	print(self)
 	args["type"]= "tag"
 	args["h_action"] = "add_tag"
 	args.update(csrf(request))
@@ -143,6 +150,23 @@ class genreAdmin(admin.ModelAdmin):
     list_display = ['name', 'description']
     actions=[consolidate]
 
+    def new_inst(self,name,desc):
+    	return Genre(name=name, description=desc)
+
+    def is_dup(self,new_genre,queryset):
+    	dup = Genre.objects.filter(name = new_genre.name).exclude(id__in =queryset)
+    	if dup:
+    		return True
+    	return False
+
+    def filter_shows(self,queryset):
+    	return Show.objects.filter(genres__in= queryset).distinct()
+
+    def set_to_show(self,genre,show):
+    	show.genres.add(genre)
+    	show.save()
+
+
 class movieAdmin(admin.ModelAdmin):
 	list_display = ['english_title']
 	filter_horizontal = ['tags','genres',]
@@ -155,6 +179,23 @@ class tvshowAdmin(admin.ModelAdmin):
 
 class tagAdmin(admin.ModelAdmin):
 	list_display = ['name','description']
+	actions=[consolidate]
+
+	def new_inst(self,name,desc):
+		return Tag(name=name, description=desc)
+
+	def is_dup(self,new_tag,queryset):
+		dup = Tag.objects.filter(name = new_tag.name).exclude(id__in =queryset)
+		if dup:
+			return True
+		return False
+
+	def filter_shows(self,queryset):
+		return Show.objects.filter(tags__in= queryset).distinct()
+
+	def set_to_show(self,tag,show):
+		show.tags.add(tag)
+		show.save()
 
 class seriesAdmin(admin.ModelAdmin):
 	list_display = ['series_name']

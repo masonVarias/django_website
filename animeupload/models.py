@@ -119,20 +119,12 @@ class Show(models.Model):
 	ma_levels = standard_choices
 
 	image = models.FileField(default = "images/fnf/fnf.jpg", blank=True, upload_to='images/')
-#	image = models.ImageField(upload_to="/images", default = images/fnf/fnf.jif, width_field = "width_field", height_field = "height_field")
-#	height_field = models.IntegerField(default =0)
-#	width_field = models.IntegerField(default =0)
 
-#	tone = models.IntegerField(default = LITE_TONE, choices= tone_levels)
 	english_title = models.CharField(max_length=200)
 	japanese_title = models.CharField(max_length=200, null= True)
 	description = models.TextField(max_length = 1000)
 
-#	total_episodes = models.IntegerField()
-#	ova=  models.BooleanField(default = False)
-#	movies = models.IntegerField(default = 0)
-#	total_seasons = models.IntegerField(default = 1)
-#	ongoing = models.BooleanField(default = False)
+	length = models.IntegerField(null=True)
 
 	series = models.ForeignKey(Series, null = True, blank = True, on_delete=models.SET_NULL)
 
@@ -170,7 +162,6 @@ class Show(models.Model):
 
 class TVShow(Show):
 	total_episodes = models.IntegerField()
-#	ova=  models.BooleanField(default = False)
 	total_seasons = models.IntegerField(default = 1)
 	ongoing = models.BooleanField(default = False)
 
