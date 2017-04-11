@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
-import sys
 
 #---------------------------------------------------
 #import djanog.contrib.auth
@@ -29,8 +28,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '#8hv^1u5ikp499$nfl!ei^+)-oq_ai@jxy-%d!qh!gm%8ez!vl'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = True
-DEBUG = (sys.argv[1] == 'runserver')
+DEBUG = True
+#DEBUG = False
 
 ALLOWED_HOSTS = ['animeadvisor.tk']
 
