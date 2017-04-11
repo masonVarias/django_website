@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
+import sys
 
 #---------------------------------------------------
 #import djanog.contrib.auth
@@ -28,7 +29,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '#8hv^1u5ikp499$nfl!ei^+)-oq_ai@jxy-%d!qh!gm%8ez!vl'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
+DEBUG = (sys.argv[1] == 'runserver')
 
 ALLOWED_HOSTS = ['animeadvisor.tk']
 
@@ -153,5 +155,12 @@ AUTHENTICATION_BACKENDS = (
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 
 ACCOUNT_EMAIL_REQUIRED =True
+
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = "animeadvisor276@gmail.com"
+EMAIL_HOST_PASSWORD = "sairav276"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
 
 #ACCOUNT_UNIQUE_EMAIL = False
