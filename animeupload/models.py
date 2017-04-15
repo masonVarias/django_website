@@ -2,8 +2,8 @@ from django.db import models
 from django.conf import settings
 
 LITE_TONE = NONE = 0
-MODERATE_TONE = UNINTENTIONAL = CORPSE_LTE = LOW = ESRB_E = LIGHT = DAMN = UNDERWEAR = 1
-DARK_TONE = MISCHIEVOUS = SILHOUETTE = MODERATE = ESRB_T = DEEP = CENCORED = 2
+SUBBED = MODERATE_TONE = UNINTENTIONAL = CORPSE_LTE = LOW = ESRB_E = LIGHT = DAMN = UNDERWEAR = 1
+DUBBED = DARK_TONE = MISCHIEVOUS = SILHOUETTE = MODERATE = ESRB_T = DEEP = CENCORED = 2
 ULTA_DARK_TONE = MALICE_LTE = DISMEMBERED = HIGH = ESRB_M = SEX = FUCK = BUTT = 3
 MALICE_HVY = EXTREME = ESRB_A = BARBIE_SMOOTH = 4
 OUTINES = 5
@@ -58,6 +58,7 @@ class Genre(models.Model):
 		super(Genre, self).save(*args, **kwargs)
 
 class Show(models.Model):
+
 	n_choices= (
 		(NONE,"none"),
 		(UNDERWEAR,"underwear"),
@@ -147,6 +148,9 @@ class Show(models.Model):
 	genres = models.ManyToManyField(Genre, blank=True)
 
 	modified_date = models.DateTimeField(auto_now=True, blank = True, null=True)
+#---------------------------------------------------------------------------------
+#	funimation = models.IntegerField(defalt = NONE, choices = audio_choices)
+#	crunchyroll =
 
 	def __str__(self):
 		return self.english_title
@@ -158,7 +162,6 @@ class Show(models.Model):
 		self.english_title = self.english_title.lower()
 		self.japanese_title = self.japanese_title.lower()
 		super(Show, self).save(*args, **kwargs)
-
 
 class TVShow(Show):
 	total_episodes = models.IntegerField()
@@ -226,3 +229,16 @@ class SecondaryLink(Link):
 
 	def __str__(self):
 		return self.name
+
+class WatchOption(models.Model):
+	audio_choices = (
+		(SUBBED,"english subbed"),
+		(DUBBED,"english dubbed"),
+	)
+	show = models.ForeignKey(Show, on_delete = models.CASCADE)
+	link = models.ForeignKey(Link, on_delete = models.CASCADE)
+	free = models.BooleanField(default = False)
+	audio = models.IntegerField(default = None, choices=audio_choices)
+
+	class Meta:
+		unique_together = (("show","link"),)

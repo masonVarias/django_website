@@ -13,8 +13,8 @@ from django.db.models import Q
 from django.db import IntegrityError
 
 from animeupload.forms import ShowListForm
-from animeupload.models import Show, Showlist , TVShow , Movie
-#from animeupload.models import Tag_relation
+from animeupload.models import Show, Showlist , TVShow , Movie, Link
+from animeupload.models import WatchOption
 from animeupload.models import Tag
 from animeupload.models import Genre
 from animeupload.models import Recommendation
@@ -153,6 +153,7 @@ def all_shows(request):
 def show_detail(request, id):
 	args = {}
 	args['shows'] = Show.objects.all()
+	args['watch_options'] = WatchOption.objects.filter(show = id)
 	if request.user.is_authenticated():
 		args['showlists'] = Showlist.objects.filter(creator = request.user)
 	tags= []
@@ -204,6 +205,8 @@ def ajax_search(request):
 def search(request):
 	args = {}
 	args.update(csrf(request))
+	links = WatchOption.objects.all().values_list("link",flat=True).distinct()
+	args['watch_options'] = Link.objects.filter(id__in=links)
 	args['tags'] = Tag.objects.all()
 	args['genres'] = Genre.objects.all()
 	args['choices'] = {"nudity": Show.n_choices,"intent":Show.si_levels, "intimacy": Show.osi_levels,
@@ -217,7 +220,7 @@ def search(request):
 #	tags = request.POST.getlist('cb_tags')
 def tag_filtering(shows,tags):
 	if tags:
-		shows = Show.objects.filter(tags__in= tags).distinct()
+		shows = shows.filter(tags__in= tags).distinct()
 	return shows
 
 def genre_filtering(shows, genres):
@@ -266,11 +269,20 @@ def rating_filtering(shows, request):
 	moral_ambiguity__lte = moral_amb_max, moral_ambiguity__gte = moral_amb_min,
 	)
 	
-
-		
 #	except MultiValueDictKeyError:
 #		pass
 	return shows
+
+def w_option_filtering(shows,options):#options are link ids
+	print()
+	print(options)
+	print()
+	if options:
+		w_objs= WatchOption.objects.filter(link__id__in = options)
+		shows = shows.filter(watchoption__in = w_objs).distinct()
+
+	return shows
+
 
 def recommendations(request):
 	args = {}
@@ -282,6 +294,7 @@ def search_results(request):
 	args={}
 	shows = Show.objects.all()
 	shows = tag_filtering(shows,request.POST.getlist('cb_tags'))
+	shows = w_option_filtering(shows,request.POST.getlist('cb_options'))
 	shows = genre_filtering(shows,request.POST.getlist('cb_genres'))
 	shows = rating_filtering(shows,request)
 	args["post"] = request.POST

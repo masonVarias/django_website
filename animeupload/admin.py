@@ -4,7 +4,7 @@ from .models import Show, Showlist, TVShow, Movie
 from .models import Series
 from .models import Tag
 from .models import PrimaryLink, SecondaryLink
-#from .models import Tag_relation
+from .models import WatchOption
 from .models import Recommendation
 from .forms import SeriesForm
 from .models import Genre
@@ -12,8 +12,6 @@ from .models import Genre
 from django.shortcuts import render_to_response
 
 from django.core.exceptions import ValidationError
-
-
 
 from django import forms
 class ConsolidateForm(forms.Form):
@@ -166,16 +164,21 @@ class genreAdmin(admin.ModelAdmin):
     	show.genres.add(genre)
     	show.save()
 
+class WatchOptionAdmin(admin.TabularInline):
+	model = WatchOption
+	extra = 0
 
 class movieAdmin(admin.ModelAdmin):
 	list_display = ['english_title']
 	filter_horizontal = ['tags','genres',]
 	actions=[add_tag,add_genre]
+	inlines = [ WatchOptionAdmin, ]
 
 class tvshowAdmin(admin.ModelAdmin):
 	list_display = ['english_title', 'total_episodes',]
 	filter_horizontal = ['tags','genres',]
 	actions=[add_tag,add_genre]
+	inlines = [ WatchOptionAdmin, ]
 
 class tagAdmin(admin.ModelAdmin):
 	list_display = ['name','description']

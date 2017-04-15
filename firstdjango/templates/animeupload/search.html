@@ -74,7 +74,16 @@
 						<input id="genre_checker" type="button" class="btn-primary check_tgon" value="check all">
 						<input id="genre_checker" type="button" class="btn-primary check_tgoff" value="uncheck all">
 					</div>
+					
+					<h3><strong>streaming services</strong></h3>
+					<div>
+						{%for option in watch_options%}
+							<input type="checkbox" name="cb_options" value="{{option.id}}">{{option}} </input>
+						{% endfor %}
+						
+					</div>
 				</div>
+				
 				<input class = "btn-primary btn-lg" type = "submit" value = "Search">
 				</form>
 			</div>	
