@@ -176,6 +176,7 @@ class Recommendation(models.Model):
 	show = models.OneToOneField(Show, on_delete=models.CASCADE, null=True)
 	recommended = models.CharField(max_length = 30)
 	description = models.TextField(max_length = 1000)
+	tldr = models.TextField(max_length = 160, null = True, blank= True)
 
 class Showlist(models.Model):
 	creator = models.ForeignKey( settings.AUTH_USER_MODEL)
