@@ -34,7 +34,7 @@
 					<ul>
 						{% for show in shows %}
 							<li>
-								<a href = "{% url 'show_detail' show.id %}">
+								<a href = "{% url 'show_detail' show.slug %}">
 								{{ show.english_title|title }}
 								</a>
 							</li>

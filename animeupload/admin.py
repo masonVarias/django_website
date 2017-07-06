@@ -147,6 +147,7 @@ class showlistAdmin(admin.ModelAdmin):
 class genreAdmin(admin.ModelAdmin):
     list_display = ['name', 'description']
     actions=[consolidate]
+    exclude=("slug",)
 
     def new_inst(self,name,desc):
     	return Genre(name=name, description=desc)
@@ -173,15 +174,18 @@ class movieAdmin(admin.ModelAdmin):
 	filter_horizontal = ['tags','genres',]
 	actions=[add_tag,add_genre]
 	inlines = [ WatchOptionAdmin, ]
+	exclude=("slug",)
 
 class tvshowAdmin(admin.ModelAdmin):
 	list_display = ['english_title', 'total_episodes',]
 	filter_horizontal = ['tags','genres',]
 	actions=[add_tag,add_genre]
 	inlines = [ WatchOptionAdmin, ]
+	exclude=("slug",)
 
 class tagAdmin(admin.ModelAdmin):
 	list_display = ['name','description']
+	exclude=("slug",)
 	actions=[consolidate]
 
 	def new_inst(self,name,desc):

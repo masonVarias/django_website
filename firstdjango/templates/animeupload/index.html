@@ -27,7 +27,7 @@
 		{% for show in shows|dictsort:"modified_date" %}
 			{% if forloop.counter0 < 50%}
 			<li>
-				<a href = "{% url 'show_detail' show.id %}">
+				<a href = "{% url 'show_detail' show.slug %}">
 					{{ show.english_title|title }}
 				</a>
 			</li>

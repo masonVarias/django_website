@@ -24,6 +24,8 @@ from .models import PrimaryLink, SecondaryLink
 from itertools import chain
 
 
+
+
 def links(request):
 	args={}
 	#for sidebar
@@ -150,15 +152,17 @@ def all_shows(request):
 	args['meta_desc'] = "list of all anime we have rated and tagged"
 	return render(request,'animeupload/all_shows.html',args)
 
-def show_detail(request, id):
+def show_detail(request, slug):
 	args = {}
 	args['shows'] = Show.objects.all()
-	args['watch_options'] = WatchOption.objects.filter(show = id)
+#	args['watch_options'] = WatchOption.objects.filter(show = id)
 	if request.user.is_authenticated():
 		args['showlists'] = Showlist.objects.filter(creator = request.user)
 	tags= []
 	try:
-		show = Show.objects.get(id = id)
+		show = Show.objects.get(slug = slug)
+		if show:
+			args['watch_options'] = WatchOption.objects.filter(show = show.id)
 #		relations = Tag_relation.objects.filter(show = show)
 
 #		for relation in relations:
@@ -310,10 +314,10 @@ def search_results(request):
 #	args["shows"] = shows;
 #	return render(request, 'animeupload/search_results.html', args)
 
-def tag_detail(request,id):
+def tag_detail(request,slug):
 	args={}
 	try:
-		tag = Tag.objects.get(id = id)
+		tag = Tag.objects.get(slug = slug)
 		tag_list = [tag]
 		args["shows"]=tag_filtering(Show.objects.all(),tag_list)
 		args["tag"] = tag
@@ -338,10 +342,10 @@ def all_genres(request):
 	args['meta_desc'] = "list of all genres we use to catagorize anime"
 	return render(request,'animeupload/all_shows.html',args)
 
-def genre_detail(request,id):
+def genre_detail(request,slug):
 	args={}
 	try:
-		genre = Genre.objects.get(id = id)
+		genre = Genre.objects.get(slug = slug)
 		genre_list = [genre]
 		args["shows"]=genre_filtering(Show.objects.all(),genre_list)
 		args["genre"] = genre

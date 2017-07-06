@@ -26,9 +26,23 @@ from animeupload import views
 from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
 
+from django.contrib.sitemaps.views import sitemap
+from animeupload.sitemaps import *
+
+mysitemaps = {
+    'static': StaticViewSitemap(),
+    'tag': TagSitemap(),
+    'genre': GenreSitemap(),
+    'show': ShowSitemap(),
+}
+
+ROBOTS_SITEMAP_VIEW_NAME = 'django.contrib.sitemaps.views.sitemap'
+
+#url(r'^show/(?P<slug>\w+)/', views.show_detail, name='show_detail'),
+
 urlpatterns = [
 	url(r'^$',views.index, name='index'),
-    url(r'^show/(?P<id>\d+)/', views.show_detail, name='show_detail'),
+    url(r'^show/(?P<slug>[-\w]+)/', views.show_detail, name='show_detail'),
 #    url(r'^admin/animeupload/genre/consolidate', views.consolidate, name="consolidate"),
     url(r'^admin/', admin.site.urls),
     url(r'^search/', views.search, name='search'),
@@ -48,10 +62,12 @@ urlpatterns = [
     url(r'^accounts/removeShow/',views.removeshow, name="remove_show"),
     url(r'^accounts/addtoList/',views.addtolist, name="add_show"),
     url(r'^links/', views.links, name='links'),
-    url(r'^tag/(?P<id>\d+)/', views.tag_detail, name='tag_detail'),
+    url(r'^tag/(?P<slug>[-\w]+)/', views.tag_detail, name='tag_detail'),
     url(r'^all_tags/',views.all_tags,name='all_tags'),
     url(r'^all_genres/',views.all_genres,name='all_genres'),
-    url(r'^genre/(?P<id>\d+)/', views.genre_detail, name='genre_detail'),
+    url(r'^genre/(?P<slug>[-\w]+)/', views.genre_detail, name='genre_detail'),
+    url(r'^sitemap\.xml$', sitemap, {'sitemaps': mysitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+    url(r'^robots\.txt$', include('robots.urls')),
 ]
 
 if settings.DEBUG:

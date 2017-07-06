@@ -1,5 +1,7 @@
 from django.db import models
 from django.conf import settings
+from django.core.urlresolvers import reverse
+from django.utils.text import slugify
 
 LITE_TONE = NONE = 0
 SUBBED = MODERATE_TONE = UNINTENTIONAL = CORPSE_LTE = LOW = ESRB_E = LIGHT = DAMN = UNDERWEAR = 1
@@ -32,6 +34,7 @@ class Series(models.Model):
 class Tag(models.Model):
 	name=models.CharField(max_length=30, unique=True)
 	description = models.CharField(max_length=150,null=True)
+	slug = models.SlugField(max_length=30, null = True, blank =True)
 
 	class Meta:
 		ordering = ["name"]
@@ -41,11 +44,17 @@ class Tag(models.Model):
 
 	def save(self, *args, **kwargs):
 		self.name = self.name.lower()
+		self.slug = slugify(self.name)
 		super(Tag, self).save(*args, **kwargs)
+
+	def get_absolute_url(self):
+		return reverse('tag_detail', kwargs={'slug':self.slug})
+
 
 class Genre(models.Model):
 	name = models.CharField(max_length=30, unique=True)
 	description = models.CharField(max_length=150,null=True)
+	slug = models.SlugField(max_length=30, null = True, blank =True)
 
 	class Meta:
 		ordering = ["name"]
@@ -53,8 +62,12 @@ class Genre(models.Model):
 	def __str__(self):
 		return self.name
 
+	def get_absolute_url(self):
+		return reverse('genre_detail', kwargs={'slug':self.slug})
+
 	def save(self,*args,**kwargs):
 		self.name = self.name.lower()
+		self.slug = slugify(self.name)
 		super(Genre, self).save(*args, **kwargs)
 
 class Show(models.Model):
@@ -149,6 +162,7 @@ class Show(models.Model):
 
 	modified_date = models.DateTimeField(auto_now=True, blank = True, null=True)
 #---------------------------------------------------------------------------------
+	slug = models.SlugField(max_length=30, null = True, blank =True)
 #	funimation = models.IntegerField(defalt = NONE, choices = audio_choices)
 #	crunchyroll =
 
@@ -161,7 +175,11 @@ class Show(models.Model):
 	def save(self, *args, **kwargs):
 		self.english_title = self.english_title.lower()
 		self.japanese_title = self.japanese_title.lower()
+		self.slug = slugify(self.english_title)
 		super(Show, self).save(*args, **kwargs)
+
+	def get_absolute_url(self):
+		return reverse('show_detail', kwargs={'slug':self.slug})
 
 class TVShow(Show):
 	total_episodes = models.IntegerField()

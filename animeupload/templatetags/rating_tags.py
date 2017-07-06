@@ -36,13 +36,18 @@ def get_all_alp(passed):
 	string = format_html("")
 	alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
 	string = format_html('<div class="col-sm-6">')
+	#--------------------------------------------------------add number edge case
+
+	string = string + create_letter("0-9")
+	regex_str = filter_key + "__regex"
+	#----------------------------------------------
+	string = string + list_shows_by_letter(passed.filter(**{regex_str : "\d+"}))
 
 	for letter in alphabet:
 		if letter == "N":
 			string = string + format_html('</div><div class="col-sm-6">')
 
 		string = string + create_letter(letter)
-#		string = string + list_shows_by_letter(shows.filter(english_title__startswith=letter))
 		string = string + list_shows_by_letter(passed.filter(**{filter_val: letter}))
 
 	string = string + format_html("</div>")
@@ -63,7 +68,8 @@ def list_shows_by_letter(shows):
 	show_key_name = get_key_name(shows)
 	for show in shows:
 		name =  show.__str__().title()
-		string = string + format_html('<li><a href = "/{2}/{0}">{1}</a></li>',show.id,name,div)
+		#string = string + format_html('<li><a href = "/{2}/{0}">{1}</a></li>',show.id,name,div)
+		string = string + format_html('<li><a href = "/{2}/{0}">{1}</a></li>',show.slug,name,div)
 
 	string = string + format_html("</ul>")
 	return string

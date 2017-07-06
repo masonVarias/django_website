@@ -112,14 +112,14 @@
 		<form id="search_form" action = "/search_results/" method = "POST">{% csrf_token %}
 
 			{% for tag in show.tags.all%}
-				<th style="padding:0px 5px;"><div class="tag_box" > <a href = "{%url 'tag_detail' tag.id%}">{{tag}}</a></div></th>
+				<th style="padding:0px 5px;"><div class="tag_box" > <a href = "{%url 'tag_detail' tag.slug%}">{{tag}}</a></div></th>
 			{% endfor %}
 		</tr>
 
 		<tr>
 			<th><h3>genres:</h3></th>
 			{% for genre in show.genres.all%}
-				<th style="padding:0px 5px;"><div class="genre_box" ><a href = "{%url 'genre_detail' genre.id%}">{{genre}}</a> </div></th>
+				<th style="padding:0px 5px;"><div class="genre_box" ><a href = "{%url 'genre_detail' genre.slug%}">{{genre}}</a> </div></th>
 			{% endfor %}
 			
 		</form>
